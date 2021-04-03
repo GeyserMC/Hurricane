@@ -20,7 +20,7 @@ public final class BambooCollisionFix extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getLogger().info("Plugin enabled. Modifying bamboo bounding box...");
-        // Make the bamboo block have the same collision as a scaffolding block
+        // Make the bamboo block have zero collision. Lagback solved...!
         try {
             Class<?> bambooBlockClass = NMSReflection.getNMSClass("BlockBamboo");
             Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, "c"); // Bounding box for "no leaves", according to Yarn.
