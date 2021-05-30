@@ -1,5 +1,6 @@
 package com.github.camotoy.bamboocollisionfix;
 
+import sun.misc.Unsafe;
 import sun.reflect.ReflectionFactory;
 
 import java.lang.reflect.*;
@@ -11,12 +12,26 @@ public class ReflectionAPI {
     private static Map<String, Field> fields = new HashMap<>();
     private static Map<String, Method> methods = new HashMap<>();
     private static boolean staticFinalModificationBlocked;
+    private static final Unsafe unsafe;
 
     static {
         try {
             Field.class.getDeclaredField("modifiers");
         }  catch (NoSuchFieldException ex) {
             staticFinalModificationBlocked = true;
+        }
+
+        boolean isJava16 = Float.parseFloat(System.getProperty("java.class.version")) >= 60;
+        if (isJava16) {
+            try {
+                Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+                unsafeField.setAccessible(true);
+                unsafe = (Unsafe) unsafeField.get(null);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            unsafe = null;
         }
     }
 
@@ -65,6 +80,16 @@ public class ReflectionAPI {
             }
         } else {
             setValuePrintException(Field.class, field, "modifiers", modifiers & ~Modifier.FINAL);
+        }
+    }
+
+    private static void setJava16Field(Object object, Field field, Object result) {
+        boolean isStatic = Modifier.isStatic(field.getModifiers());
+        long offset = isStatic ? unsafe.staticFieldOffset(field) : unsafe.objectFieldOffset(field);
+        if (isStatic) {
+            unsafe.putObject(unsafe.staticFieldBase(field), offset, result);
+        } else {
+            unsafe.putObject(object, offset, result);
         }
     }
 
@@ -316,8 +341,12 @@ public class ReflectionAPI {
     }
 
     public static void setFinalValue(Field field, Object value) throws IllegalAccessException {
-        setFieldNotFinal(field);
-        field.set(null, value);
+        if (unsafe != null) {
+            setJava16Field(null, field, value);
+        } else {
+            setFieldNotFinal(field);
+            field.set(null, value);
+        }
     }
 
     public static void setFinalValue(Object object, Field field, Object value) throws IllegalAccessException {
