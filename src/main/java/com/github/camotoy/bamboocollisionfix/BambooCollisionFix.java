@@ -22,8 +22,8 @@ public final class BambooCollisionFix extends JavaPlugin implements Listener {
         getLogger().info("Plugin enabled. Modifying bamboo bounding box...");
         // Make the bamboo block have zero collision. Lagback solved...!
         try {
-            Class<?> bambooBlockClass = NMSReflection.getNMSClass("BlockBamboo");
-            Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, "c"); // Bounding box for "no leaves", according to Yarn.
+            Class<?> bambooBlockClass = NMSReflection.getNMSClass("world.level.block", "BlockBamboo");
+            Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, NMSReflection.mojmap ? "f" : "c"); // Bounding box for "no leaves", according to Yarn.
             setBoundingBox(bambooBoundingBox, 0, 0, 0, 0, 0, 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public final class BambooCollisionFix extends JavaPlugin implements Listener {
             Object boundingBox = boundingBoxConstructor.newInstance(x1, y1, z1, x2, y2, z2);
             ReflectionAPI.setFinalValue(field, boundingBox);
         } else if (field.getType().getSimpleName().equals("VoxelShape")) {
-            Method createVoxelShape = ReflectionAPI.getMethod(NMSReflection.getNMSClass("VoxelShapes"), "create",
+            Method createVoxelShape = ReflectionAPI.getMethod(NMSReflection.getNMSClass("world.phys.shapes", "VoxelShapes"), "create",
                     double.class, double.class, double.class, double.class, double.class, double.class);
             Object boundingBox = ReflectionAPI.invokeMethod(createVoxelShape, x1, y1, z1, x2, y2, z2);
             ReflectionAPI.setFinalValue(field, boundingBox);
