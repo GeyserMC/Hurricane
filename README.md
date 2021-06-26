@@ -3,5 +3,4 @@
 
 Please read the following warnings before installing this plugin:
 - Placement of bamboo may be buggier than usual.
-- This plugin is only tested on Java 8. Java 16 will *probably* break.
 - Hackers can, theoretically, ignore bamboo and pass through it entirely with this plugin, Java or Bedrock.
