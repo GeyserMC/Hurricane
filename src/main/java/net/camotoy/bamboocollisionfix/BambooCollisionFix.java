@@ -1,4 +1,4 @@
-package com.github.camotoy.bamboocollisionfix;
+package net.camotoy.bamboocollisionfix;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -63,8 +63,15 @@ public final class BambooCollisionFix extends JavaPlugin implements Listener {
             Object boundingBox = boundingBoxConstructor.newInstance(x1, y1, z1, x2, y2, z2);
             ReflectionAPI.setFinalValue(field, boundingBox);
         } else if (field.getType().getSimpleName().equals("VoxelShape")) {
-            Method createVoxelShape = ReflectionAPI.getMethod(NMSReflection.getNMSClass("world.phys.shapes", "VoxelShapes"), "create",
-                    double.class, double.class, double.class, double.class, double.class, double.class);
+            Method createVoxelShape;
+            try {
+                // 1.18+ - obfuscated methods
+                createVoxelShape = ReflectionAPI.getMethod(NMSReflection.getNMSClass("world.phys.shapes", "VoxelShapes"), "b",
+                        double.class, double.class, double.class, double.class, double.class, double.class);
+            } catch (NoSuchMethodException e) {
+                createVoxelShape = ReflectionAPI.getMethod(NMSReflection.getNMSClass("world.phys.shapes", "VoxelShapes"), "create",
+                        double.class, double.class, double.class, double.class, double.class, double.class);
+            }
             Object boundingBox = ReflectionAPI.invokeMethod(createVoxelShape, x1, y1, z1, x2, y2, z2);
             ReflectionAPI.setFinalValue(field, boundingBox);
         } else {

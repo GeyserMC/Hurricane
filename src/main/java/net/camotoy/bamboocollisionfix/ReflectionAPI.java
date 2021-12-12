@@ -1,4 +1,4 @@
-package com.github.camotoy.bamboocollisionfix;
+package net.camotoy.bamboocollisionfix;
 
 import sun.misc.Unsafe;
 import sun.reflect.ReflectionFactory;

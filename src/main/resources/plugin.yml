@@ -1,5 +1,5 @@
 name: BambooCollisionFix
 version: ${project.version}
-main: com.github.camotoy.bamboocollisionfix.BambooCollisionFix
+main: net.camotoy.bamboocollisionfix.BambooCollisionFix
 api-version: 1.13
 authors: [ Camotoy ]
