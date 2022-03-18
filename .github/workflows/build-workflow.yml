@@ -20,6 +20,6 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: startsWith(github.ref, 'refs/tags/master')
         with:
           files: target/geyserhacks-*.jar
