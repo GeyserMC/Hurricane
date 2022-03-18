@@ -1,4 +1,4 @@
-package net.camotoy.bamboocollisionfix;
+package net.camotoy.geyserhacks;
 
 import sun.misc.Unsafe;
 import sun.reflect.ReflectionFactory;
@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // From ViaRewind Legacy Support. Am not touching this unless I have to.
-public class ReflectionAPI {
-    private static Map<String, Field> fields = new HashMap<>();
-    private static Map<String, Method> methods = new HashMap<>();
+public final class ReflectionAPI {
     private static boolean staticFinalModificationBlocked;
     private static final Unsafe unsafe;
 
@@ -36,16 +34,10 @@ public class ReflectionAPI {
     }
 
     public static Field getField(Class clazz, String fieldname) {
-        String key = clazz.getName() + ":" + fieldname;
         Field field = null;
-        if (fields.containsKey(key)) {
-            field = fields.get(key);
-        } else {
-            try {
-                field = clazz.getDeclaredField(fieldname);
-            } catch (NoSuchFieldException ignored) {}
-            fields.put(key, field);
-        }
+        try {
+            field = clazz.getDeclaredField(fieldname);
+        } catch (NoSuchFieldException ignored) {}
         return field;
     }
 
