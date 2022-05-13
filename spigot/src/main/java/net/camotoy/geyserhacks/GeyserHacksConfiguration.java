@@ -16,6 +16,10 @@ public final class GeyserHacksConfiguration {
             "Additionally, this fix will apply to all players, Java and Bedrock, if Geyser/Floodgate is not installed.\n" +
             "Requires a decently recent version of Paper.")
     private boolean signFix = true;
+    @Comment("Fixes Bedrock players being unable to control pigs and striders by controlling their movement serverside.\n" +
+            "Java Edition controls pigs and striders on the client end. Bedrock depends on the server.\n" +
+            "This option should be relatively safe but does modify server behavior. Geyser or Floodgate must be installed, as well as a recent server version.")
+    private boolean itemSteerableFix = true;
 
     public CollisionFixes collisionFixes() {
         return collisionFixes;
@@ -23,6 +27,10 @@ public final class GeyserHacksConfiguration {
 
     public boolean signFix() {
         return signFix;
+    }
+
+    public boolean itemSteerableFix() {
+        return itemSteerableFix;
     }
 
     @ConfigSerializable

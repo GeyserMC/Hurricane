@@ -7,7 +7,14 @@
     <groupId>net.camotoy</groupId>
     <artifactId>geyserhacks</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>nms-provider</module>
+        <module>nms-1_17_R1</module>
+        <module>nms-1_18_R1</module>
+        <module>nms-1_18_R2</module>
+        <module>spigot</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>GeyserHacks</name>
 
@@ -17,6 +24,7 @@
     </properties>
 
     <build>
+        <finalName>GeyserHacks</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -30,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -83,6 +91,13 @@
         </resources>
     </build>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>bytecode.space</id>
+            <url>https://repo.bytecode.space/repository/maven-public/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <repositories>
         <repository>
             <id>papermc-repo</id>
@@ -116,27 +131,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spongepowered</groupId>
-            <artifactId>configurate-hocon</artifactId>
-            <version>4.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.geysermc</groupId>
-            <artifactId>core</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.geysermc.floodgate</groupId>
-            <artifactId>api</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

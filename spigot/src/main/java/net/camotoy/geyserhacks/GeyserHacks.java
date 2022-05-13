@@ -3,9 +3,15 @@ package net.camotoy.geyserhacks;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.geysermc.floodgate.api.FloodgateApi;
+import org.geysermc.geyser.GeyserImpl;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public final class GeyserHacks extends JavaPlugin {
 
@@ -51,6 +57,39 @@ public final class GeyserHacks extends JavaPlugin {
                 Bukkit.getPluginManager().registerEvents(new SignUpdateFix(this), this);
             } catch (NoSuchMethodException e) {
                 getLogger().warning("Cannot enable sign editing fix! Make sure you're running a decently new version of Paper.");
+            }
+        }
+
+        if (config.itemSteerableFix()) {
+            NMSProvider providerImpl = null;
+            String name = Bukkit.getServer().getClass().getPackage().getName();
+            String nmsVersion = name.substring(name.lastIndexOf('.') + 1);
+            try {
+                Class<?> providerImplClass = Class.forName("net.camotoy.geyserhacks." + nmsVersion + ".NMSProviderImpl");
+                providerImpl = (NMSProvider) providerImplClass.getConstructor().newInstance();
+            } catch (ClassNotFoundException e) {
+                getLogger().warning("This Minecraft server version does not support the item steerable workaround!");
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+
+            if (providerImpl != null) {
+                Predicate<UUID> playerChecker;
+                try {
+                    Class.forName("org.geysermc.floodgate.api.FloodgateApi");
+                    playerChecker = uuid -> FloodgateApi.getInstance().isFloodgatePlayer(uuid);
+                } catch (ClassNotFoundException e) {
+                    try {
+                        Class.forName("org.geysermc.geyser.GeyserImpl");
+                        playerChecker = uuid -> GeyserImpl.getInstance().connectionByUuid(uuid) != null;
+                    } catch (ClassNotFoundException e2) {
+                        getLogger().warning("Could not find Geyser or Floodgate; item steerable fix will not be applied.");
+                        playerChecker = null;
+                    }
+                }
+                if (playerChecker != null) {
+                    Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
+                }
             }
         }
     }
