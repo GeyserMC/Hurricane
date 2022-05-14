@@ -6,3 +6,4 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 Fixes:
 - Bamboo and dripstone collision (by setting them to no server-side collision)
 - https://github.com/GeyserMC/Geyser/issues/1063 by allowing signs to always be editable by the player who created them.
+- https://github.com/GeyserMC/Geyser/issues/638 by implementing the control server-side.
