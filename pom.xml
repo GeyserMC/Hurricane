@@ -6,7 +6,7 @@
 
     <groupId>net.camotoy</groupId>
     <artifactId>geyserhacks</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <modules>
         <module>nms-provider</module>
         <module>nms-1_17_R1</module>
