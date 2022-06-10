@@ -12,6 +12,7 @@
         <module>nms-1_17_R1</module>
         <module>nms-1_18_R1</module>
         <module>nms-1_18_R2</module>
+        <module>nms-1_19_R1</module>
         <module>spigot</module>
     </modules>
     <packaging>pom</packaging>
