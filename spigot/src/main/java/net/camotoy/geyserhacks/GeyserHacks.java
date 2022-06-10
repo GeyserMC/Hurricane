@@ -1,7 +1,6 @@
 package net.camotoy.geyserhacks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.geyser.GeyserImpl;
@@ -49,15 +48,6 @@ public final class GeyserHacks extends JavaPlugin {
 
         if (bambooFixEnabled || pointedDripstoneFixEnabled) {
             Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled), this);
-        }
-
-        if (config.signFix()) {
-            try {
-                Block.class.getMethod("getState", boolean.class);
-                Bukkit.getPluginManager().registerEvents(new SignUpdateFix(this), this);
-            } catch (NoSuchMethodException e) {
-                getLogger().warning("Cannot enable sign editing fix! Make sure you're running a decently new version of Paper.");
-            }
         }
 
         if (config.itemSteerableFix()) {

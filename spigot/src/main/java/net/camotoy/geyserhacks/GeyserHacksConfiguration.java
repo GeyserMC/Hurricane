@@ -11,11 +11,6 @@ public final class GeyserHacksConfiguration {
             "Caveats: a custom client - Java or Bedrock - could take advantage of no collision and walk right through.\n" +
             " Additionally, placement of these blocks on both platforms may be buggier than usual.")
     private CollisionFixes collisionFixes = new CollisionFixes();
-    @Comment("Fixes some Bedrock platforms causing a sign to be uneditable in the middle of an editing session.\n" +
-            "Caveat: a custom client could re-edit their own sign at any time.\n" +
-            "Additionally, this fix will apply to all players, Java and Bedrock, if Geyser/Floodgate is not installed.\n" +
-            "Requires a decently recent version of Paper.")
-    private boolean signFix = true;
     @Comment("Fixes Bedrock players being unable to control pigs and striders by controlling their movement serverside.\n" +
             "Java Edition controls pigs and striders on the client end. Bedrock depends on the server.\n" +
             "This option should be relatively safe but does modify server behavior. Geyser or Floodgate must be installed, as well as a recent server version.")
@@ -23,10 +18,6 @@ public final class GeyserHacksConfiguration {
 
     public CollisionFixes collisionFixes() {
         return collisionFixes;
-    }
-
-    public boolean signFix() {
-        return signFix;
     }
 
     public boolean itemSteerableFix() {
