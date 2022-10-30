@@ -79,6 +79,7 @@ public final class GeyserHacks extends JavaPlugin {
                 }
                 if (playerChecker != null) {
                     Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
+                    getLogger().info("Item steerable fix enabled.");
                 }
             }
         }
