@@ -50,6 +50,7 @@ public final class GeyserHacks extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled), this);
         }
         
+        //TBYT
         Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
         getLogger().info("Sweeping Edge fix enabled.");
 
