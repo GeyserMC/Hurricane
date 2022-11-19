@@ -27,11 +27,13 @@ public final class SweepingEdgeFix implements Listener
     		List<ItemStack> Items = event.getMerchant().getRecipe(i).getIngredients();
     		for(int x=0; x < Items.size(); x++)
     		{
-    			event.getMerchant().getTrader().getServer().broadcastMessage("Item: "+Items.get(x));
-    			if(Items.get(x).containsEnchantment(Enchantment.SWEEPING_EDGE))
+    			if(event.getMerchant().getRecipe(i).getIngredients().get(x).containsEnchantment(Enchantment.SWEEPING_EDGE))
     			{
-    				if(!Items.get(x).containsEnchantment(Enchantment.DURABILITY))
-    					Items.get(x).addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+    				event.getMerchant().getTrader().getServer().broadcastMessage("Item: "+event.getMerchant().getRecipe(i).getIngredients().get(x));
+    				if(!event.getMerchant().getRecipe(i).getIngredients().get(x).containsEnchantment(Enchantment.DURABILITY))
+    				{
+    					event.getMerchant().getRecipe(i).getIngredients().get(x).addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+    				}
     				event.getMerchant().getTrader().getServer().broadcastMessage("Fixed enchantment?");
     			}
     		}
