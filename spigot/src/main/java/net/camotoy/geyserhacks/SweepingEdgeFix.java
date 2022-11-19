@@ -1,5 +1,6 @@
 package net.camotoy.geyserhacks;
 
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.TradeSelectEvent;
@@ -22,12 +23,15 @@ public final class SweepingEdgeFix implements Listener
     {
     	for (MerchantRecipe recipe : event.getMerchant().getRecipes())
     	{
-    		//event.getMerchant().getTrader().sendMessage("Ingredients for each recipes: "+recipe.getIngredients());
-    		event.getMerchant().getTrader().getServer().broadcastMessage("Ingredients for each recipes: "+recipe.getIngredients());
     		for (ItemStack s : recipe.getIngredients())
     		{
-				//event.getMerchant().getTrader().sendMessage("ItemStack: "+s);
-	    		event.getMerchant().getTrader().getServer().broadcastMessage("ItemStack: "+s);
+    			if(s.containsEnchantment(Enchantment.SWEEPING_EDGE))
+    			{
+    				s.addEnchantment(Enchantment.DURABILITY, 1);
+    				event.getMerchant().getTrader().getServer().broadcastMessage("ItemStack: "+s);
+    				event.getMerchant().getTrader().getServer().broadcastMessage("Fixed enchantment?");
+    			}
+	    		
     		}
 		}
         
