@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.TradeSelectEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -29,7 +30,7 @@ public final class SweepingEdgeFix implements Listener
      * https://www.spigotmc.org/threads/change-villager-trade-result-item.553322/page-2#post-4395892
      */
     @EventHandler
-    public void onVillagerInteract(final PlayerInteractAtEntityEvent e) {
+    public void onVillagerInteract(final PlayerInteractEntityEvent e) {
         if (!(e.getRightClicked() instanceof Villager)) return;
 
         Villager villager = (Villager) e.getRightClicked();
