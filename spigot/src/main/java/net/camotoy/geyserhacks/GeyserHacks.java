@@ -49,6 +49,9 @@ public final class GeyserHacks extends JavaPlugin {
         if (bambooFixEnabled || pointedDripstoneFixEnabled) {
             Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled), this);
         }
+        
+        Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
+        getLogger().info("Sweeping Edge fix enabled.");
 
         if (config.itemSteerableFix()) {
             NMSProvider providerImpl = null;
