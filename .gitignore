@@ -98,6 +98,8 @@ $RECYCLE.BIN/
 target/
 bin/
 *.settings
+*.classpath
+*.project
 
 pom.xml.tag
 pom.xml.releaseBackup
