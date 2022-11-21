@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.plugin.Plugin;
+import net.camotoy.geyserhacks.NMSProvider;
 
 public final class SweepingEdgeFix implements Listener 
 {
