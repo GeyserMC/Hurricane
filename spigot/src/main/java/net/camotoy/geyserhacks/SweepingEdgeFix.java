@@ -8,8 +8,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.TradeSelectEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
@@ -37,14 +35,12 @@ public final class SweepingEdgeFix implements Listener
 
         /* This uses google guava (which spigot includes) */
         /* google guava, just takes the elements from the list and puts it into a new list (that we can modify) */
-        final List<MerchantRecipe> recipes = Lists.newArrayList(villager.getRecipes());
+        List<MerchantRecipe> recipes = Lists.newArrayList(villager.getRecipes());
 
         /* Convert the list to an iterator so we can safely remove values from it while looping through the iterator */
 
-        Iterator<MerchantRecipe> recipeIterator;
-        for (recipeIterator = recipes.iterator(); recipeIterator.hasNext(); ) {
-            MerchantRecipe recipe = recipeIterator.next();
-
+        for(MerchantRecipe recipe: recipes) 
+        {
             if (recipe.getResult().getType().equals(Material.ENCHANTED_BOOK)) {
                 EnchantmentStorageMeta meta = (EnchantmentStorageMeta) recipe.getResult().getItemMeta();
 
@@ -52,7 +48,7 @@ public final class SweepingEdgeFix implements Listener
                 {
                 	if (meta.hasStoredEnchant(Enchantment.DURABILITY)) { return; }
                 	int lvl = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-                    recipeIterator.remove();
+                    recipes.remove(recipe);
 
                     /* would probably be best to save this into a static variable since this code will reuse it a lot */
                     ItemStack is = new ItemStack(Material.ENCHANTED_BOOK);
