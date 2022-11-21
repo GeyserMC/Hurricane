@@ -20,10 +20,12 @@ public final class SweepingEdgeFix implements Listener
     @EventHandler
     public void findEnchant(InventoryOpenEvent e) 
     {
+    	e.getPlayer().sendMessage("inventory detected");
     	PlayerInventory inv = e.getPlayer().getInventory();
         for(int i = 0; i < inv.getSize()-1; i++)
         {
         	 ItemStack item = inv.getItem(i);
+        	 e.getPlayer().sendMessage(i+"");
              if(item.getType().equals(Material.BOOK) 
             		 || item.getType().equals(Material.DIAMOND_SWORD) 
             		 || item.getType().equals(Material.NETHERITE_SWORD)
@@ -36,8 +38,10 @@ public final class SweepingEdgeFix implements Listener
 
                  if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
                  {
+                	 e.getPlayer().sendMessage("detected sweeping edge");
                 	 if (!meta.hasStoredEnchant(Enchantment.DURABILITY)) 
                      {
+                		 e.getPlayer().sendMessage("changed book");
 	                     meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 	                     meta.setDisplayName("Sweeping Edge "+item.getItemMeta().getEnchantLevel(Enchantment.SWEEPING_EDGE)+" "+item.getType().name());
 	                     item.setItemMeta(meta);
