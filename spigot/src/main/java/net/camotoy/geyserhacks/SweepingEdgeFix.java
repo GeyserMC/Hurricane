@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
@@ -28,27 +29,31 @@ public final class SweepingEdgeFix implements Listener
      * https://www.spigotmc.org/threads/change-villager-trade-result-item.553322/page-2#post-4395892
      */
     @EventHandler
-    public void onVillagerInteract(final PlayerInteractEntityEvent e) {
+    public void onVillagerInteract(final PlayerInteractAtEntityEvent e) {
         if (!(e.getRightClicked() instanceof Villager)) return;
 
         Villager villager = (Villager) e.getRightClicked();
 
         /* This uses google guava (which spigot includes) */
         /* google guava, just takes the elements from the list and puts it into a new list (that we can modify) */
-        List<MerchantRecipe> recipes = Lists.newArrayList(villager.getRecipes());
+        final List<MerchantRecipe> recipes = Lists.newArrayList(villager.getRecipes());
 
         /* Convert the list to an iterator so we can safely remove values from it while looping through the iterator */
 
-        for(MerchantRecipe recipe: recipes) 
-        {
-            if (recipe.getResult().getType().equals(Material.ENCHANTED_BOOK)) {
+        Iterator<MerchantRecipe> recipeIterator;
+        for (recipeIterator = recipes.iterator(); recipeIterator.hasNext(); ) {
+            MerchantRecipe recipe = recipeIterator.next();
+
+            if (recipe.getResult().getType().equals(Material.ENCHANTED_BOOK)) 
+            {
+
                 EnchantmentStorageMeta meta = (EnchantmentStorageMeta) recipe.getResult().getItemMeta();
 
                 if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
                 {
                 	if (meta.hasStoredEnchant(Enchantment.DURABILITY)) { return; }
                 	int lvl = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-                    recipes.remove(recipe);
+                    recipeIterator.remove();
 
                     /* would probably be best to save this into a static variable since this code will reuse it a lot */
                     ItemStack is = new ItemStack(Material.ENCHANTED_BOOK);
