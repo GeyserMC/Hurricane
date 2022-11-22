@@ -51,7 +51,7 @@ public final class SweepingEdgeFix implements Listener
 							if(meta.getEnchants().size()==1)
 							{
 								meta.addEnchant(Enchantment.DURABILITY, 1, false);
-								player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(0, charAt).toLowerCase()+" Sword.");
+								player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(0,1).toUpperCase()+displayName.substring(1, charAt).toLowerCase()+" Sword.");
 							}
 							item.setItemMeta(meta);
 							e.setCurrentItem(item);
