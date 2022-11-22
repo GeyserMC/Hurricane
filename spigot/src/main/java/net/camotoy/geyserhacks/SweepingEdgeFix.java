@@ -41,24 +41,22 @@ public final class SweepingEdgeFix implements Listener
 				{
 					player.sendMessage(item.getType().name());
 					ItemMeta meta = item.getItemMeta();
-					//if(meta!=null)
-					//{
-						if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
+					if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
+					{
+						player.sendMessage("detected sweeping edge");
+						int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
+						String displayName = item.getType().name();
+						meta.setDisplayName("Sweeping Edge " + sweepingLevel);
+						if(meta.getEnchants().size()==1)
 						{
-							player.sendMessage("detected sweeping edge");
-							int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-							String displayName = item.getType().name();
-							meta.setDisplayName("Sweeping Edge " + sweepingLevel+ " " + displayName);
-							item.setItemMeta(meta);
-							if(meta.getEnchants().size()==1)
-							{
-								item.addEnchantment(Enchantment.DURABILITY, 1);
-								player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
-							}
-							player.sendMessage("Sweeping Edge fixed on "+displayName);
-							e.setCurrentItem(item);
+							item.addEnchantment(Enchantment.DURABILITY, 1);
+							player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
 						}
+						player.sendMessage("Sweeping Edge fixed on "+displayName);
+						item.setItemMeta(meta);
+						e.setCurrentItem(item);
 					}
+				}
 				else if(item.getType().equals(Material.ENCHANTED_BOOK))
 				{
 					player.sendMessage(item.getType().name());
