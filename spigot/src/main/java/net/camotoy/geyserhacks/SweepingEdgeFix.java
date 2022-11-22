@@ -1,8 +1,5 @@
 package net.camotoy.geyserhacks;
 
-import java.util.UUID;
-import java.util.function.Predicate;
-
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,7 +12,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.inventory.InventoryType;
 import org.geysermc.floodgate.api.FloodgateApi;
-import org.geysermc.geyser.GeyserImpl;
 
 public final class SweepingEdgeFix implements Listener 
 {
@@ -25,75 +21,66 @@ public final class SweepingEdgeFix implements Listener
         this.plugin = plugin;
     }
 
+    /*
+     * TBYT adds Sweeping Edge fix.
+     * This adds unbreaking 1 to sweeping edge items if they only have the 1 enchant(sweeping edge)
+     * If has sweeping edge and another enchant, or after applying unbreaking fix, wil update item name to sweeping edge and the enchantment level.
+     */
     @EventHandler
     public void findEnchant(InventoryClickEvent event) 
     {
 		Player player = (Player) event.getWhoClicked();
-		//Inventory becomes null for some reason after player clicks on item then drops it out their inventory.
-		
-		Predicate<UUID> playerChecker;
-        try {
-            Class.forName("org.geysermc.floodgate.api.FloodgateApi");
-            playerChecker = uuid -> FloodgateApi.getInstance().isFloodgatePlayer(uuid);
-        } catch (ClassNotFoundException e) {
-            try {
-                Class.forName("org.geysermc.geyser.GeyserImpl");
-                playerChecker = uuid -> GeyserImpl.getInstance().connectionByUuid(uuid) != null;
-            } catch (ClassNotFoundException e2) {
-                playerChecker = null;
-            }
-        }
-        if (playerChecker != null) 
+		//Checking for floodgate/geyser player.
+        if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) 
         {
-		
-		
-		if(event.getClickedInventory()!=null)
-		{
-			if (event.getClickedInventory().getType() == InventoryType.PLAYER) 
+        	//Inventory becomes null for some reason after player clicks on item then drops it out their inventory.
+			if(event.getClickedInventory()!=null)
 			{
-				ItemStack item = event.getCurrentItem();
-				if(item!=null) //rare case this equals null
+				if (event.getClickedInventory().getType() == InventoryType.PLAYER) 
 				{
-					if (item.getType().equals(Material.DIAMOND_SWORD)
-							|| item.getType().equals(Material.NETHERITE_SWORD) || item.getType().equals(Material.IRON_SWORD)
-							|| item.getType().equals(Material.GOLDEN_SWORD) || item.getType().equals(Material.STONE_SWORD)
-							|| item.getType().equals(Material.WOODEN_SWORD)) 
+					ItemStack item = event.getCurrentItem();
+					if(item!=null) //rare case this equals null
 					{
-						ItemMeta meta = item.getItemMeta();
-						if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
+						if (item.getType().equals(Material.DIAMOND_SWORD)
+								|| item.getType().equals(Material.NETHERITE_SWORD) || item.getType().equals(Material.IRON_SWORD)
+								|| item.getType().equals(Material.GOLDEN_SWORD) || item.getType().equals(Material.STONE_SWORD)
+								|| item.getType().equals(Material.WOODEN_SWORD)) 
 						{
-							int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-							String displayName = item.getType().name();
-							int charAt = displayName.indexOf("_");
-							meta.setDisplayName("Sweeping Edge " + sweepingLevel);
-							if(meta.getEnchants().size()==1)
+							ItemMeta meta = item.getItemMeta();
+							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
 							{
-								meta.addEnchant(Enchantment.DURABILITY, 1, false);
-								player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(0,1).toUpperCase()+displayName.substring(1, charAt).toLowerCase()+" Sword.");
+								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
+								String displayName = item.getType().name();
+								int charAt = displayName.indexOf("_");
+								meta.setDisplayName("Sweeping Edge " + sweepingLevel);
+								if(meta.getEnchants().size()==1)
+								{
+									meta.addEnchant(Enchantment.DURABILITY, 1, false);
+									player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(0,1).toUpperCase()+displayName.substring(1, charAt).toLowerCase()+" Sword.");
+								}
+								item.setItemMeta(meta);
+								event.setCurrentItem(item);
 							}
-							item.setItemMeta(meta);
-							event.setCurrentItem(item);
 						}
-					}
-					else if(item.getType().equals(Material.ENCHANTED_BOOK))
-					{
-						EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-						if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
+						else if(item.getType().equals(Material.ENCHANTED_BOOK))
 						{
-							int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-							meta.setDisplayName("Sweeping Edge " + sweepingLevel);
-							if(meta.getStoredEnchants().size()==1)
+							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
 							{
-								meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-								player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
+								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
+								meta.setDisplayName("Sweeping Edge " + sweepingLevel);
+								if(meta.getStoredEnchants().size()==1)
+								{
+									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
+									player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
+								}
+								item.setItemMeta(meta);
+								event.setCurrentItem(item);
 							}
-							item.setItemMeta(meta);
-							event.setCurrentItem(item);
 						}
 					}
 				}
 			}
-		}
-	}
-}
+        }
+    }
 }

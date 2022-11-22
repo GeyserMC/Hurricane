@@ -49,11 +49,6 @@ public final class GeyserHacks extends JavaPlugin {
         if (bambooFixEnabled || pointedDripstoneFixEnabled) {
             Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled), this);
         }
-        
-        //TBYT
-        Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
-        getLogger().info("Sweeping Edge fix enabled.");
-
         if (config.itemSteerableFix()) {
             NMSProvider providerImpl = null;
             String name = Bukkit.getServer().getClass().getPackage().getName();
@@ -77,13 +72,16 @@ public final class GeyserHacks extends JavaPlugin {
                         Class.forName("org.geysermc.geyser.GeyserImpl");
                         playerChecker = uuid -> GeyserImpl.getInstance().connectionByUuid(uuid) != null;
                     } catch (ClassNotFoundException e2) {
-                        getLogger().warning("Could not find Geyser or Floodgate; item steerable fix will not be applied.");
+                        getLogger().warning("Could not find Geyser or Floodgate; item steerable fix and sweeping edge fix will not be applied.");
                         playerChecker = null;
                     }
                 }
                 if (playerChecker != null) {
                     Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
                     getLogger().info("Item steerable fix enabled.");
+                    //TBYT
+                    Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
+                    getLogger().info("Sweeping Edge fix enabled.");
                 }
             }
         }
