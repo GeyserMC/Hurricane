@@ -1,5 +1,8 @@
 package net.camotoy.geyserhacks;
 
+import java.util.UUID;
+import java.util.function.Predicate;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -10,11 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.Nullable;
-
-import net.kyori.adventure.text.Component;
-
 import org.bukkit.event.inventory.InventoryType;
+import org.geysermc.floodgate.api.FloodgateApi;
+import org.geysermc.geyser.GeyserImpl;
 
 public final class SweepingEdgeFix implements Listener 
 {
@@ -23,17 +24,34 @@ public final class SweepingEdgeFix implements Listener
     public SweepingEdgeFix(Plugin plugin) {
         this.plugin = plugin;
     }
-    
+
     @EventHandler
-    public void findEnchant(InventoryClickEvent e) 
+    public void findEnchant(InventoryClickEvent event) 
     {
-		Player player = (Player) e.getWhoClicked();
+		Player player = (Player) event.getWhoClicked();
 		//Inventory becomes null for some reason after player clicks on item then drops it out their inventory.
-		if(e.getClickedInventory()!=null)
+		
+		Predicate<UUID> playerChecker;
+        try {
+            Class.forName("org.geysermc.floodgate.api.FloodgateApi");
+            playerChecker = uuid -> FloodgateApi.getInstance().isFloodgatePlayer(uuid);
+        } catch (ClassNotFoundException e) {
+            try {
+                Class.forName("org.geysermc.geyser.GeyserImpl");
+                playerChecker = uuid -> GeyserImpl.getInstance().connectionByUuid(uuid) != null;
+            } catch (ClassNotFoundException e2) {
+                playerChecker = null;
+            }
+        }
+        if (playerChecker != null) 
+        {
+		
+		
+		if(event.getClickedInventory()!=null)
 		{
-			if (e.getClickedInventory().getType() == InventoryType.PLAYER) 
+			if (event.getClickedInventory().getType() == InventoryType.PLAYER) 
 			{
-				ItemStack item = e.getCurrentItem();
+				ItemStack item = event.getCurrentItem();
 				if(item!=null) //rare case this equals null
 				{
 					if (item.getType().equals(Material.DIAMOND_SWORD)
@@ -54,7 +72,7 @@ public final class SweepingEdgeFix implements Listener
 								player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(0,1).toUpperCase()+displayName.substring(1, charAt).toLowerCase()+" Sword.");
 							}
 							item.setItemMeta(meta);
-							e.setCurrentItem(item);
+							event.setCurrentItem(item);
 						}
 					}
 					else if(item.getType().equals(Material.ENCHANTED_BOOK))
@@ -70,11 +88,12 @@ public final class SweepingEdgeFix implements Listener
 								player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
 							}
 							item.setItemMeta(meta);
-							e.setCurrentItem(item);
+							event.setCurrentItem(item);
 						}
 					}
 				}
 			}
 		}
 	}
+}
 }
