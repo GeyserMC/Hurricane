@@ -27,32 +27,35 @@ public final class SweepingEdgeFix implements Listener
     public void findEnchant(InventoryClickEvent e) 
     {
 		Player player = (Player) e.getWhoClicked();
-		if (e.getClickedInventory().getType() == InventoryType.PLAYER) 
+		//Inventory becomes null for some reason after player clicks on item then drops it out their inventory.
+		if(e.getClickedInventory()!=null)
 		{
-			ItemStack item = e.getCurrentItem();
-			if (item.getType().equals(Material.ENCHANTED_BOOK) || item.getType().equals(Material.DIAMOND_SWORD)
-					|| item.getType().equals(Material.NETHERITE_SWORD) || item.getType().equals(Material.IRON_SWORD)
-					|| item.getType().equals(Material.GOLDEN_SWORD) || item.getType().equals(Material.STONE_SWORD)
-					|| item.getType().equals(Material.WOODEN_SWORD)) 
+			if (e.getClickedInventory().getType() == InventoryType.PLAYER) 
 			{
-				ItemMeta meta = item.getItemMeta();
-				if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
-				{
-					player.sendMessage("detected sweeping edge");
-					int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-					String displayName = item.getType().name();
-					meta.setDisplayName("Sweeping Edge " + sweepingLevel+ " " + displayName);
-					item.setItemMeta(meta);
-					if (!meta.hasEnchant(Enchantment.DURABILITY)) 
+				ItemStack item = e.getCurrentItem();
+//				if (item.getType().equals(Material.ENCHANTED_BOOK) || item.getType().equals(Material.DIAMOND_SWORD)
+//						|| item.getType().equals(Material.NETHERITE_SWORD) || item.getType().equals(Material.IRON_SWORD)
+//						|| item.getType().equals(Material.GOLDEN_SWORD) || item.getType().equals(Material.STONE_SWORD)
+//						|| item.getType().equals(Material.WOODEN_SWORD)) 
+//				{
+					ItemMeta meta = item.getItemMeta();
+					if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
 					{
-						item.addEnchantment(Enchantment.DURABILITY, 1);
-						player.sendMessage("added unbreaking1");
-					}
-					player.sendMessage("end of change");
-					e.setCurrentItem(item);
+						player.sendMessage("detected sweeping edge");
+						int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
+						String displayName = item.getType().name();
+						meta.setDisplayName("Sweeping Edge " + sweepingLevel+ " " + displayName);
+						item.setItemMeta(meta);
+						if(meta.getEnchants().size()==1)
+						{
+							item.addEnchantment(Enchantment.DURABILITY, 1);
+							player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
+						}
+						player.sendMessage("Sweeping Edge fixed on "+displayName);
+						e.setCurrentItem(item);
+					//}
 				}
 			}
 		}
-
     }
 }
