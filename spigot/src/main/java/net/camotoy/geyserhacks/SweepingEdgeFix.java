@@ -41,7 +41,6 @@ public final class SweepingEdgeFix implements Listener
 					player.sendMessage("detected sweeping edge");
 					int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
 					String displayName = item.getType().name();
-					if(meta.hasDisplayName()) { displayName = meta.displayName().toString(); }
 					meta.setDisplayName("Sweeping Edge " + sweepingLevel+ " " + displayName);
 					item.setItemMeta(meta);
 					if (!meta.hasEnchant(Enchantment.DURABILITY)) 
@@ -49,7 +48,7 @@ public final class SweepingEdgeFix implements Listener
 						item.addEnchantment(Enchantment.DURABILITY, 1);
 						player.sendMessage("added unbreaking1");
 					}
-					player.sendMessage("changed item");
+					player.sendMessage("end of change");
 					e.setCurrentItem(item);
 				}
 			}
