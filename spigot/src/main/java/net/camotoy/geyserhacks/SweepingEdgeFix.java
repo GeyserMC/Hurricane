@@ -67,7 +67,7 @@ public final class SweepingEdgeFix implements Listener
 						int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
 						String displayName = item.getType().name();
 						meta.setDisplayName("Sweeping Edge " + sweepingLevel);
-						if(meta.getEnchants().size()==1)
+						if(meta.getStoredEnchants().size()==1)
 						{
 							meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 							player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
