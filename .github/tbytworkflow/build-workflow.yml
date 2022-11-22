@@ -27,11 +27,29 @@ jobs:
       - name: Prepare NMS 1.19 mappings
         run: mvn ca.bkaw:paper-nms-maven-plugin:1.2:init -pl :nms-1_19_R1
 
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
       - name: Build with Maven
         run: mvn -B package -T 2C
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          files: spigot/target/GeyserHacks.jar
+          artifacts: spigot/target/GeyserHacks.jar
+          allowUpdates: true
+          bodyFile: "README.md"
+          draft: false
+          prerelease: false
+          tag: "release"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+#    - name: Release
+#       uses: softprops/action-gh-release@v1
+#       if: startsWith(github.ref, 'refs/tags/')
+#       with:
+#         files: spigot/target/GeyserHacks.jar
