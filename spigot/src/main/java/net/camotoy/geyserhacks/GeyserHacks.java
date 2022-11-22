@@ -77,11 +77,14 @@ public final class GeyserHacks extends JavaPlugin {
                     }
                 }
                 if (playerChecker != null) {
-                    Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
+                	Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
                     getLogger().info("Item steerable fix enabled.");
-                    //TBYT
-                    Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
-                    getLogger().info("Sweeping Edge fix enabled.");
+                	if(config.sweepingEdgeFix())
+                	{
+                		//TBYT
+                        Bukkit.getPluginManager().registerEvents(new SweepingEdgeFix(this), this);
+                        getLogger().info("Sweeping Edge fix enabled.");
+                	}
                 }
             }
         }

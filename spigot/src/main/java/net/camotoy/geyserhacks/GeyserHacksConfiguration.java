@@ -15,6 +15,11 @@ public final class GeyserHacksConfiguration {
             "Java Edition controls pigs and striders on the client end. Bedrock depends on the server.\n" +
             "This option should be relatively safe but does modify server behavior. Geyser or Floodgate must be installed, as well as a recent server version.")
     private boolean itemSteerableFix = true;
+    @Comment("Fixes Bedrock players being unable to use any item with the sweeping edge enchant.\n"
+    		+ "For Bedrock Players, this adds Unbreaking i enchant to item if no other enchants, and will change the name of the item to reflect the level of sweeping edge.\n" +
+            "This option should be relatively safe but does modify server behavior. Geyser or Floodgate must be installed, as well as a recent server version.")
+    private boolean sweepingEdgeFix = true;
+    
 
     public CollisionFixes collisionFixes() {
         return collisionFixes;
@@ -22,6 +27,10 @@ public final class GeyserHacksConfiguration {
 
     public boolean itemSteerableFix() {
         return itemSteerableFix;
+    }
+    
+    public boolean sweepingEdgeFix() {
+        return sweepingEdgeFix;
     }
 
     @ConfigSerializable
