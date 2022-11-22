@@ -39,40 +39,34 @@ public final class SweepingEdgeFix implements Listener
 						|| item.getType().equals(Material.GOLDEN_SWORD) || item.getType().equals(Material.STONE_SWORD)
 						|| item.getType().equals(Material.WOODEN_SWORD)) 
 				{
-					player.sendMessage(item.getType().name());
 					ItemMeta meta = item.getItemMeta();
 					if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) 
 					{
-						player.sendMessage("detected sweeping edge");
 						int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
 						String displayName = item.getType().name();
+						int charAt = displayName.indexOf("_");
 						meta.setDisplayName("Sweeping Edge " + sweepingLevel);
 						if(meta.getEnchants().size()==1)
 						{
 							item.addEnchantment(Enchantment.DURABILITY, 1);
-							player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
+							player.sendMessage("Sweeping Edge Fixed on "+displayName.substring(charAt, charAt+5).toLowerCase()+" Sword.");
 						}
-						player.sendMessage("Sweeping Edge fixed on "+displayName);
 						item.setItemMeta(meta);
 						e.setCurrentItem(item);
 					}
 				}
 				else if(item.getType().equals(Material.ENCHANTED_BOOK))
 				{
-					player.sendMessage(item.getType().name());
 					EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 					if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
 					{
-						player.sendMessage("detected sweeping edge");
 						int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-						String displayName = item.getType().name();
 						meta.setDisplayName("Sweeping Edge " + sweepingLevel);
 						if(meta.getStoredEnchants().size()==1)
 						{
 							meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-							player.sendMessage("Unbreaking added for usability of Sweeping Edge enchant.");
+							player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
 						}
-						player.sendMessage("Sweeping Edge fixed on "+displayName);
 						item.setItemMeta(meta);
 						e.setCurrentItem(item);
 					}
