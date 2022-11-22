@@ -4,8 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -20,11 +19,8 @@ public final class SweepingEdgeFix implements Listener
     }
     
     @EventHandler
-    public void findEnchant(InventoryOpenEvent e) 
+    public void findEnchant(PlayerInteractEvent e) 
     {
-    	if (e.getInventory().getType() == InventoryType.PLAYER)
-    	{
-	    	e.getPlayer().sendMessage("player inventory detected");
 	    	PlayerInventory inv = e.getPlayer().getInventory();
 	        for(int i = 0; i < inv.getSize()-1; i++)
 	        {
@@ -52,6 +48,6 @@ public final class SweepingEdgeFix implements Listener
 	                 }
 	             }
 	        }
-    	}
+    	
     }
 }
