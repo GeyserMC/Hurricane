@@ -1,5 +1,8 @@
 package net.camotoy.geyserhacks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -12,6 +15,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.inventory.InventoryType;
 import org.geysermc.floodgate.api.FloodgateApi;
+import org.jetbrains.annotations.Nullable;
+
+import net.kyori.adventure.text.Component;
 
 public final class SweepingEdgeFix implements Listener {
 	private final Plugin plugin;
@@ -38,35 +44,26 @@ public final class SweepingEdgeFix implements Listener {
 					ItemStack item = event.getCurrentItem();
 					if (item != null) // rare case this equals null
 					{
-						if (item.getType().equals(Material.DIAMOND_SWORD)
-								|| item.getType().equals(Material.NETHERITE_SWORD)
-								|| item.getType().equals(Material.IRON_SWORD)
-								|| item.getType().equals(Material.GOLDEN_SWORD)
-								|| item.getType().equals(Material.STONE_SWORD)
-								|| item.getType().equals(Material.WOODEN_SWORD)) {
-							ItemMeta meta = item.getItemMeta();
-							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
-								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-								String displayName = item.getType().name();
-								int charAt = displayName.indexOf("_");
-								meta.setDisplayName("Sweeping Edge " + sweepingLevel);
-								if (meta.getEnchants().size() == 1) {
-									meta.addEnchant(Enchantment.DURABILITY, 1, false);
-									player.sendMessage(
-											"Sweeping Edge Fixed on " + displayName.substring(0, 1).toUpperCase()
-											+ displayName.substring(1, charAt).toLowerCase() + " Sword.");
+						if (item.getType().equals(Material.ENCHANTED_BOOK)) {
+							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
+								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
+								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));;
+								if (meta.getStoredEnchants().size() == 1) {
+									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
+									//player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
 							}
-						} else if (item.getType().equals(Material.ENCHANTED_BOOK)) {
-							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
-								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-								meta.setDisplayName("Sweeping Edge " + sweepingLevel);
-								if (meta.getStoredEnchants().size() == 1) {
-									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-									player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
+						} else if (item.hasItemMeta()) {
+							ItemMeta meta = item.getItemMeta();
+							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
+								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
+								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
+								if (meta.getEnchants().size() == 1) {
+									meta.addEnchant(Enchantment.DURABILITY, 1, false);
+									//player.sendMessage("Sweeping Edge Fixed.");
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
