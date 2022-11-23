@@ -79,7 +79,7 @@ public final class SweepingEdgeFix implements Listener {
 						}
 					}
 				}
-				// fix anvil not giving results on bedrock, that normally would on Java.
+				// trying to fix anvil not giving results on bedrock, that normally would on Java. 
 				else if (event.getClickedInventory().getType() == InventoryType.ANVIL) {
 					if (event.getSlotType() == InventoryType.SlotType.RESULT)
 						return;
@@ -95,7 +95,7 @@ public final class SweepingEdgeFix implements Listener {
 								meta.lore(new ArrayList<Component>());
 								item.setItemMeta(meta);
 							}
-							event.getInventory().setItem(1, item);
+							event.getInventory().setItem(0, item);
 						}
 					}
 				}
