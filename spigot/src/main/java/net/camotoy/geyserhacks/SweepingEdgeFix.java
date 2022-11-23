@@ -58,7 +58,8 @@ public final class SweepingEdgeFix implements Listener {
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
-							}
+							} else
+								meta.lore(new ArrayList<Component>());
 						} else if (item.hasItemMeta()) {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
@@ -73,7 +74,28 @@ public final class SweepingEdgeFix implements Listener {
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
+							} else
+								meta.lore(new ArrayList<Component>());
+						}
+					}
+				}
+				// fix anvil not giving results on bedrock, that normally would on Java.
+				else if (event.getClickedInventory().getType() == InventoryType.ANVIL) {
+					if (event.getSlotType() == InventoryType.SlotType.RESULT)
+						return;
+					ItemStack item = event.getInventory().getItem(1);
+					if (item != null && item.hasItemMeta()) {
+						if (item.getItemMeta().hasLore()) {
+							if (item.getType().equals(Material.ENCHANTED_BOOK)) {
+								EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+								meta.lore(new ArrayList<Component>());
+								item.setItemMeta(meta);
+							} else {
+								ItemMeta meta = item.getItemMeta();
+								meta.lore(new ArrayList<Component>());
+								item.setItemMeta(meta);
 							}
+							event.getInventory().setItem(1, item);
 						}
 					}
 				}
