@@ -48,10 +48,10 @@ public final class SweepingEdgeFix implements Listener {
 							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));;
+								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
 								if (meta.getStoredEnchants().size() == 1) {
 									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-									//player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
+									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
@@ -63,7 +63,7 @@ public final class SweepingEdgeFix implements Listener {
 								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
 								if (meta.getEnchants().size() == 1) {
 									meta.addEnchant(Enchantment.DURABILITY, 1, false);
-									//player.sendMessage("Sweeping Edge Fixed.");
+									// player.sendMessage("Sweeping Edge Fixed.");
 								}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
