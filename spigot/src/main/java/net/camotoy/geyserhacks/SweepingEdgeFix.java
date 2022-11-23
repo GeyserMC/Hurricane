@@ -48,7 +48,13 @@ public final class SweepingEdgeFix implements Listener {
 							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-								meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
+								if (meta.hasLore())
+									meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
+								else {
+									List<Component> loreList = new ArrayList<Component>();
+									loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
+									meta.lore(loreList);
+								}
 								if (meta.getStoredEnchants().size() == 1) {
 									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
