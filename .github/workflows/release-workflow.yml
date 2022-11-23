@@ -1,4 +1,4 @@
-name: Build GeyserHacks
+name: Release GeyserHacks
 
 on: push
 
