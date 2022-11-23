@@ -48,14 +48,10 @@ public final class SweepingEdgeFix implements Listener {
 							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
+								// will overwrite any existing lore.
 								List<Component> loreList = new ArrayList<Component>();
-								if (meta.hasLore()) {
-									loreList = meta.lore();
-									loreList.remove(Component.text("Sweeping Edge"));
-								}
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
-
 								if (meta.getStoredEnchants().size() == 1) {
 									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
@@ -67,11 +63,8 @@ public final class SweepingEdgeFix implements Listener {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
+								// will overwrite any existing lore.
 								List<Component> loreList = new ArrayList<Component>();
-								if (meta.hasLore()) {
-									loreList = meta.lore();
-									loreList.remove(Component.text("Sweeping Edge"));
-								}
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
 								if (meta.getEnchants().size() == 1) {
