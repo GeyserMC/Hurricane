@@ -60,10 +60,9 @@ public final class SweepingEdgeFix implements Listener {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-								if(meta.hasLore())
+								if (meta.hasLore())
 									meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
-								else 
-								{
+								else {
 									List<Component> loreList = new ArrayList<Component>();
 									loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 									meta.lore(loreList);
