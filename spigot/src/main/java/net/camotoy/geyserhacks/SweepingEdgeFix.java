@@ -51,6 +51,7 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								if (meta.hasLore()) {
 									loreList = meta.lore();
+									loreList.remove(Component.text("Sweeping Edge"));
 								}
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
@@ -69,6 +70,7 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								if (meta.hasLore()) {
 									loreList = meta.lore();
+									loreList.remove(Component.text("Sweeping Edge"));
 								}
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
