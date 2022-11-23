@@ -28,9 +28,9 @@ public final class SweepingEdgeFix implements Listener {
 
 	/*
 	 * TBYT adds Sweeping Edge fix. This adds unbreaking 1 to sweeping edge items if
-	 * they only have the 1 enchant(sweeping edge) If has sweeping edge and another
-	 * enchant, or after applying unbreaking fix, wil update item name to sweeping
-	 * edge and the enchantment level.
+	 * they only have the 1 enchant(sweeping edge). If has sweeping edge and another
+	 * enchant, or after applying unbreaking fix, will update lore to sweeping edge
+	 * and the enchantment level. (Jens helped with Lore)
 	 */
 	@EventHandler
 	public void findEnchant(InventoryClickEvent event) {
@@ -48,13 +48,13 @@ public final class SweepingEdgeFix implements Listener {
 							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getStoredEnchantLevel(Enchantment.SWEEPING_EDGE);
-								if (meta.hasLore())
-									meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
-								else {
-									List<Component> loreList = new ArrayList<Component>();
-									loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
-									meta.lore(loreList);
+								List<Component> loreList = new ArrayList<Component>();
+								if (meta.hasLore()) {
+									loreList = meta.lore();
 								}
+								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
+								meta.lore(loreList);
+
 								if (meta.getStoredEnchants().size() == 1) {
 									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
@@ -66,13 +66,12 @@ public final class SweepingEdgeFix implements Listener {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
 								int sweepingLevel = meta.getEnchantLevel(Enchantment.SWEEPING_EDGE);
-								if (meta.hasLore())
-									meta.lore().add(Component.text("Sweeping Edge " + sweepingLevel));
-								else {
-									List<Component> loreList = new ArrayList<Component>();
-									loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
-									meta.lore(loreList);
+								List<Component> loreList = new ArrayList<Component>();
+								if (meta.hasLore()) {
+									loreList = meta.lore();
 								}
+								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
+								meta.lore(loreList);
 								if (meta.getEnchants().size() == 1) {
 									meta.addEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed.");
