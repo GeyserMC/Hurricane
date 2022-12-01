@@ -2,6 +2,7 @@ package net.camotoy.geyserhacks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,9 +15,8 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.geysermc.floodgate.api.FloodgateApi;
-import org.jetbrains.annotations.Nullable;
-
 import net.kyori.adventure.text.Component;
 
 public final class SweepingEdgeFix implements Listener {
@@ -52,10 +52,10 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
-								if (meta.getStoredEnchants().size() == 1) {
-									meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
+								//if (meta.getStoredEnchants().size() == 1) {
+									//meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
-								}
+								//}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
 							} else
@@ -68,10 +68,10 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
-								if (meta.getEnchants().size() == 1) {
-									meta.addEnchant(Enchantment.DURABILITY, 1, false);
+								//if (meta.getEnchants().size() == 1) {
+									//meta.addEnchant(Enchantment.DURABILITY, 1, false);
 									// player.sendMessage("Sweeping Edge Fixed.");
-								}
+								//}
 								item.setItemMeta(meta);
 								event.setCurrentItem(item);
 							} else
@@ -79,27 +79,33 @@ public final class SweepingEdgeFix implements Listener {
 						}
 					}
 				}
-				// trying to fix anvil not giving results on bedrock, that normally would on Java. 
-				else if (event.getClickedInventory().getType() == InventoryType.ANVIL) {
-					if (event.getSlotType() == InventoryType.SlotType.RESULT)
-						return;
-					ItemStack item = event.getInventory().getItem(1);
-					if (item != null && item.hasItemMeta()) {
-						if (item.getItemMeta().hasLore()) {
-							if (item.getType().equals(Material.ENCHANTED_BOOK)) {
-								EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-								meta.lore(new ArrayList<Component>());
-								item.setItemMeta(meta);
-							} else {
-								ItemMeta meta = item.getItemMeta();
-								meta.lore(new ArrayList<Component>());
-								item.setItemMeta(meta);
-							}
-							event.getInventory().setItem(0, item);
-						}
-					}
-				}
 			}
 		}
 	}
+	
+	/*
+	 * https://bukkit.org/threads/how-to-put-unsafe-enchantments-to-result-item-in-anvil.412472/#post-3350913
+	 */
+	@EventHandler
+    public void onPrepareAnvil(PrepareAnvilEvent event)
+    {
+		Player player = (Player) event.getViewers().get(0);
+		// Checking for floodgate/geyser player.
+		if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) 
+		{
+	        if(event.getInventory().getItem(0) != null && event.getInventory().getItem(1) != null)
+	        {
+	        	//if(event.getInventory().getItem(0) != null && event.getInventory().getItem(1) != null)
+	            ItemStack result = new ItemStack(event.getInventory().getItem(0));
+	            if(event.getInventory().getItem(1).getType() == Material.ENCHANTED_BOOK)
+	            {
+	                EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) event.getInventory().getItem(1).getItemMeta();
+	                Map<Enchantment, Integer> enchantments = bookmeta.getStoredEnchants();
+	                result.addUnsafeEnchantments(enchantments);
+	            }
+	            //result.addUnsafeEnchantments(event.getInventory().getItem(1).getEnchantments());
+	            event.setResult(result);
+	        }
+		}
+    }
 }
