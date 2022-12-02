@@ -52,9 +52,11 @@ public final class SweepingEdgeFix implements Listener {
 					loreCheck.add(Component.text("modifiedanvilbook"));
 					if (meta.lore().contains(loreCheck.get(0))) 
 					{
-						player.sendMessage("MADE IT HERE");
-						if (meta.hasStoredEnchant(Enchantment.DURABILITY))
+						if (meta.hasStoredEnchant(Enchantment.DURABILITY)) {
 							meta.removeStoredEnchant(Enchantment.DURABILITY);
+						}
+						item.setItemMeta(meta);
+						event.setCurrentItem(item);
 					}
 				}
 			}
@@ -66,6 +68,7 @@ public final class SweepingEdgeFix implements Listener {
 			// inventory.
 			if (event.getClickedInventory() != null) {
 				if (event.getClickedInventory().getType() == InventoryType.PLAYER) {
+					item = event.getCurrentItem();
 					if (item != null) // rare case this equals null
 					{
 						if (item.getType().equals(Material.ENCHANTED_BOOK)) {
