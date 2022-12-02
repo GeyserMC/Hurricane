@@ -95,10 +95,10 @@ public final class SweepingEdgeFix implements Listener {
 						if (bookmeta.getStoredEnchants().size() == 1)
 						{
 							bookmeta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
+							secondItem.setItemMeta(bookmeta);
+			                event.getInventory().setSecondItem(secondItem);
 						}
 					}
-	                secondItem.setItemMeta(bookmeta);
-	                event.getInventory().setSecondItem(secondItem);
 	            }
 	        }
 		}
