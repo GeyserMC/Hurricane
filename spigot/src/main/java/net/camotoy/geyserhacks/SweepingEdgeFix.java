@@ -33,9 +33,7 @@ public final class SweepingEdgeFix implements Listener {
 	@EventHandler
 	public void findEnchant(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
-
 		ItemStack item = event.getCurrentItem();
-
 		// This IF Block is for a circumstance of a geyser bedrock player
 		// dropping/moving
 		// the enchanted book out the 2nd anvil slot, after it is given the unbreaking
@@ -46,8 +44,7 @@ public final class SweepingEdgeFix implements Listener {
 		// will
 		// still apply to the result, this means unbreaking 1 will be on the result if
 		// detected sweeping edge book (with no other enchants) in the 2nd slot.
-		if (item != null) // rare case this equals null
-		{
+		if (item != null) {// rare case this equals null
 			if (item.getType().equals(Material.ENCHANTED_BOOK)) {
 				EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 				if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
@@ -65,7 +62,6 @@ public final class SweepingEdgeFix implements Listener {
 				}
 			}
 		}
-
 		// Checking for floodgate/geyser player.
 		if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) {
 			// Inventory becomes null after player clicks on item then drops it out their
@@ -73,8 +69,7 @@ public final class SweepingEdgeFix implements Listener {
 			if (event.getClickedInventory() != null) {
 				if (event.getClickedInventory().getType() == InventoryType.PLAYER) {
 					item = event.getCurrentItem();
-					if (item != null) // rare case this equals null
-					{
+					if (item != null) {// rare case this equals null
 						if (item.getType().equals(Material.ENCHANTED_BOOK)) {
 							EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 							if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
