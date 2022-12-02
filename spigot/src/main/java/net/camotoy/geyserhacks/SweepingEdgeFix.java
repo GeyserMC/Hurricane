@@ -39,24 +39,28 @@ public final class SweepingEdgeFix implements Listener {
 		// This IF Block is for a circumstance of a geyser bedrock player
 		// dropping/moving
 		// the enchanted book out the 2nd anvil slot, after it is given the unbreaking
-		// enchant. This is to prevent getting free unbreaking 1 books. It does not
+		// enchant. This is to prevent getting free unbreaking 1 books for any player.
+		// It does not
 		// prevent the anvil operation from happening. It does not prevent legit
-		// possession of unbreaking 1 on sweeping edge books. The anvil operation will
+		// possession of unbreaking enchant on sweeping edge books. The anvil operation
+		// will
 		// still apply to the result, this means unbreaking 1 will be on the result if
 		// detected sweeping edge book (with no other enchants) in the 2nd slot.
-		if (item.getType().equals(Material.ENCHANTED_BOOK)) {
-			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-			if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
-				if (meta.hasLore()) {
-					List<Component> loreCheck = new ArrayList<Component>();
-					loreCheck.add(Component.text("modifiedanvilbook"));
-					if (meta.lore().contains(loreCheck.get(0))) 
-					{
-						if (meta.hasStoredEnchant(Enchantment.DURABILITY)) {
-							meta.removeStoredEnchant(Enchantment.DURABILITY);
+		if (item != null) // rare case this equals null
+		{
+			if (item.getType().equals(Material.ENCHANTED_BOOK)) {
+				EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
+				if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
+					if (meta.hasLore()) {
+						List<Component> loreCheck = new ArrayList<Component>();
+						loreCheck.add(Component.text("modifiedanvilbook"));
+						if (meta.lore().contains(loreCheck.get(0))) {
+							if (meta.hasStoredEnchant(Enchantment.DURABILITY)) {
+								meta.removeStoredEnchant(Enchantment.DURABILITY);
+							}
+							item.setItemMeta(meta);
+							event.setCurrentItem(item);
 						}
-						item.setItemMeta(meta);
-						event.setCurrentItem(item);
 					}
 				}
 			}
@@ -119,6 +123,7 @@ public final class SweepingEdgeFix implements Listener {
 					EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) secondItem.getItemMeta();
 					// if does not enters this if statement, bookmeta does not change.
 					if (bookmeta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
+						// if no other enchants on sweeping edge books.
 						if (bookmeta.getStoredEnchants().size() == 1) {
 							// adding tagged lore so book will stay inside anvil event, and the unbreaking
 							// enchant will be removed if book exits anvil operation in the event anvil
