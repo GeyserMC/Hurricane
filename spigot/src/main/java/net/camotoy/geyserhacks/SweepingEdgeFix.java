@@ -48,7 +48,7 @@ public final class SweepingEdgeFix implements Listener {
 			EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
 			if (meta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) {
 				if (meta.hasLore()) {
-					if (meta.lore() == Component.text("modifiedanvilbook")) {
+					if (meta.lore().get(0).equals(Component.text("modifiedanvilbook"))) {
 						if (meta.hasStoredEnchant(Enchantment.DURABILITY))
 							meta.removeStoredEnchant(Enchantment.DURABILITY);
 					}
