@@ -6,7 +6,7 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 Fixes:
 - Bamboo and dripstone collision (by setting them to no server-side collision)
 - https://github.com/GeyserMC/Geyser/issues/638 by implementing the control server-side.
-- https://github.com/GeyserMC/Geyser/issues/1741 by adding unbreaking 1 to sweeping edge books/items if that's the only enchant. Adding the enchant gives bedrock players ability to use it in an anvil. By default, this changes name of any item with sweeping edge to reflect it's level everytime a bedrock player clicks on it in the inventory.
+- https://github.com/GeyserMC/Geyser/issues/1741 by adding the sweeping edge level to the lore of the item. Also sweeping edge now works in the anvil because this fix adds unbreaking 1 to the 2nd slot in the anvil if that slot contains a sweeping edge only book.
 
 Supported Versions:
 - 1.14.x - 1.19.x
