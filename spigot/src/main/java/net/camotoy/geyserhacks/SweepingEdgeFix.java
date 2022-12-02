@@ -100,7 +100,7 @@ public final class SweepingEdgeFix implements Listener {
 	            if(event.getInventory().getItem(1).getType() == Material.ENCHANTED_BOOK)
 	            {
 	                EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) event.getInventory().getItem(1).getItemMeta();
-	                bookmeta.addStoredEnchant(Enchantment.DURABILITY, 0, false);
+	                bookmeta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
 	                Map<Enchantment, Integer> enchantments = bookmeta.getStoredEnchants();
 	                result.addUnsafeEnchantments(enchantments);
 	            }
