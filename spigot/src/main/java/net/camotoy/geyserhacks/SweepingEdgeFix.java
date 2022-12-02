@@ -27,9 +27,7 @@ public final class SweepingEdgeFix implements Listener {
 	}
 
 	/*
-	 * TBYT adds Sweeping Edge fix. This adds unbreaking 1 to sweeping edge items if
-	 * they only have the 1 enchant(sweeping edge). If has sweeping edge and another
-	 * enchant, or after applying unbreaking fix, will update lore to sweeping edge
+	 * TBYT adds Sweeping Edge fix. This will update lore to sweeping edge
 	 * and the enchantment level. (Jens helped with Lore)
 	 */
 	@EventHandler
@@ -83,6 +81,8 @@ public final class SweepingEdgeFix implements Listener {
 		}
 	}
 	
+	//remember take off lore after disenchant.
+	
 	/*
 	 * https://bukkit.org/threads/how-to-put-unsafe-enchantments-to-result-item-in-anvil.412472/#post-3350913
 	 */
@@ -100,6 +100,7 @@ public final class SweepingEdgeFix implements Listener {
 	            if(event.getInventory().getItem(1).getType() == Material.ENCHANTED_BOOK)
 	            {
 	                EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) event.getInventory().getItem(1).getItemMeta();
+	                bookmeta.addStoredEnchant(Enchantment.DURABILITY, 0, false);
 	                Map<Enchantment, Integer> enchantments = bookmeta.getStoredEnchants();
 	                result.addUnsafeEnchantments(enchantments);
 	            }
