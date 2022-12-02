@@ -50,14 +50,10 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
-								//if (meta.getStoredEnchants().size() == 1) {
-									//meta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-									// player.sendMessage("Sweeping Edge Fixed on Enchanted Book.");
-								//}
-								item.setItemMeta(meta);
-								event.setCurrentItem(item);
-							} else
-								meta.lore(new ArrayList<Component>());
+							} else {
+								meta.lore(new ArrayList<Component>()); }
+							item.setItemMeta(meta);
+							event.setCurrentItem(item);
 						} else if (item.hasItemMeta()) {
 							ItemMeta meta = item.getItemMeta();
 							if (meta.hasEnchant(Enchantment.SWEEPING_EDGE)) {
@@ -66,22 +62,16 @@ public final class SweepingEdgeFix implements Listener {
 								List<Component> loreList = new ArrayList<Component>();
 								loreList.add(Component.text("Sweeping Edge " + sweepingLevel));
 								meta.lore(loreList);
-								//if (meta.getEnchants().size() == 1) {
-									//meta.addEnchant(Enchantment.DURABILITY, 1, false);
-									// player.sendMessage("Sweeping Edge Fixed.");
-								//}
-								item.setItemMeta(meta);
-								event.setCurrentItem(item);
-							} else
-								meta.lore(new ArrayList<Component>());
+							} else {
+								meta.lore(new ArrayList<Component>()); }
+							item.setItemMeta(meta);
+							event.setCurrentItem(item);
 						}
 					}
 				}
 			}
 		}
 	}
-	
-	//remember take off lore after disenchant.
 	
 	/*
 	 * https://bukkit.org/threads/how-to-put-unsafe-enchantments-to-result-item-in-anvil.412472/#post-3350913
@@ -93,19 +83,23 @@ public final class SweepingEdgeFix implements Listener {
 		// Checking for floodgate/geyser player.
 		if (FloodgateApi.getInstance().isFloodgatePlayer(player.getUniqueId())) 
 		{
-	        if(event.getInventory().getItem(0) != null && event.getInventory().getItem(1) != null)
+			ItemStack secondItem = event.getInventory().getSecondItem();
+	        if(event.getInventory().getFirstItem() != null && secondItem != null)
 	        {
-	        	//if(event.getInventory().getItem(0) != null && event.getInventory().getItem(1) != null)
-	            ItemStack result = new ItemStack(event.getInventory().getItem(0));
-	            if(event.getInventory().getItem(1).getType() == Material.ENCHANTED_BOOK)
+	            if(secondItem.getType() == Material.ENCHANTED_BOOK)
 	            {
-	                EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) event.getInventory().getItem(1).getItemMeta();
-	                bookmeta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
-	                Map<Enchantment, Integer> enchantments = bookmeta.getStoredEnchants();
-	                result.addUnsafeEnchantments(enchantments);
+	                EnchantmentStorageMeta bookmeta = (EnchantmentStorageMeta) secondItem.getItemMeta();
+	                //if does not enters this if statement, bookmeta does not change.
+	                if (bookmeta.hasStoredEnchant(Enchantment.SWEEPING_EDGE)) 
+	                {
+						if (bookmeta.getStoredEnchants().size() == 1)
+						{
+							bookmeta.addStoredEnchant(Enchantment.DURABILITY, 1, false);
+						}
+					}
+	                secondItem.setItemMeta(bookmeta);
+	                event.getInventory().setSecondItem(secondItem);
 	            }
-	            //result.addUnsafeEnchantments(event.getInventory().getItem(1).getEnchantments());
-	            event.setResult(result);
 	        }
 		}
     }
