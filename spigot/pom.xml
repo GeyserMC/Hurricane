@@ -66,5 +66,11 @@
             <version>1.2-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.camotoy</groupId>
+            <artifactId>nms-1_19_R2</artifactId>
+            <version>1.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
