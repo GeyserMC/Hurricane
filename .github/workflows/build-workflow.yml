@@ -24,8 +24,11 @@ jobs:
       - name: Prepare NMS 1.18.2 mappings
         run: mvn ca.bkaw:paper-nms-maven-plugin:1.2:init -pl :nms-1_18_R2
 
-      - name: Prepare NMS 1.19 mappings
+      - name: Prepare NMS 1.19.2 mappings
         run: mvn ca.bkaw:paper-nms-maven-plugin:1.2:init -pl :nms-1_19_R1
+
+      - name: Prepare NMS 1.19.3 mappings
+        run: mvn ca.bkaw:paper-nms-maven-plugin:1.2:init -pl :nms-1_19_R2
 
       - name: Build with Maven
         run: mvn -B package -T 2C
