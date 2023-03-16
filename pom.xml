@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.camotoy</groupId>
-    <artifactId>geyserhacks</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <groupId>org.geysermc.hurricane</groupId>
+    <artifactId>hurricane-parent</artifactId>
+    <version>2.0-SNAPSHOT</version>
     <modules>
         <module>nms-provider</module>
         <module>nms-1_17_R1</module>
@@ -18,15 +18,17 @@
     </modules>
     <packaging>pom</packaging>
 
-    <name>GeyserHacks</name>
+    <name>hurricane</name>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hurricane.groupId>org.geysermc.hurricane</hurricane.groupId>
+        <hurricane.version>2.0-SNAPSHOT</hurricane.version>
     </properties>
 
     <build>
-        <finalName>GeyserHacks</finalName>
+        <finalName>Hurricane</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -52,15 +54,15 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.spongepowered.configurate</pattern>
-                                    <shadedPattern>net.camotoy.geyserhacks.relocations.configurate</shadedPattern>
+                                    <shadedPattern>org.geysermc.hurricane.relocations.configurate</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>io.leangen.geantyref</pattern>
-                                    <shadedPattern>net.camotoy.geyserhacks.relocations.geantyref</shadedPattern>
+                                    <shadedPattern>org.geysermc.hurricane.relocations.geantyref</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.typesafe.config</pattern>
-                                    <shadedPattern>net.camotoy.geyserhacks.relocations.typesafeconfig</shadedPattern>
+                                    <shadedPattern>org.geysermc.hurricane.relocations.typesafeconfig</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -1,6 +1,6 @@
-name: GeyserHacks
+name: Hurricane
 version: ${project.version}
-main: net.camotoy.geyserhacks.GeyserHacks
+main: org.geysermc.hurricane.Hurricane
 api-version: 1.13
-authors: [ Camotoy ]
+authors: [ GeyserMC ]
 softdepend: [Geyser-Spigot, floodgate]
