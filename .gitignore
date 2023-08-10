@@ -18,7 +18,7 @@ out/
 *.ctxt
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.nar
 *.ear
@@ -112,3 +112,10 @@ buildNumber.properties
 # Common working directory
 run/
 .paper-nms
+
+
+### Gradle ###
+.gradle
+**/build/
+!src/**/build/
+**/bin

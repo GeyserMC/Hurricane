@@ -1,5 +1,5 @@
 name: Hurricane
-version: ${project.version}
+version: ${version}
 main: org.geysermc.hurricane.Hurricane
 api-version: 1.13
 authors: [ GeyserMC ]

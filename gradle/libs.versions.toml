@@ -1,0 +1,25 @@
+[versions]
+configurate ="4.0.0"
+geyser ="2.1.2-SNAPSHOT"
+floodgate ="2.1.0-SNAPSHOT"
+paper ="1.18.2-R0.1-SNAPSHOT"
+paperweight = "1.5.5"
+shadow = "8.1.1"
+
+[libraries]
+configurate-hocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+floodgate-api = { group = "org.geysermc.floodgate", name = "spigot", version.ref = "floodgate" }
+geyser-core = { group = "org.geysermc.geyser", name = "core", version.ref = "geyser" }
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+paperweight = { group = "io.papermc.paperweight", name = "paperweight-userdev", version.ref = "paperweight" }
+shadow = { group = "com.github.johnrengelman", name = "shadow", version.ref = "shadow" }
+
+[bundles]
+geyser = [
+    "floodgate-api",
+    "geyser-core"
+]
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
