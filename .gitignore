@@ -119,3 +119,6 @@ run/
 **/build/
 !src/**/build/
 **/bin
+
+### VSCode ###
+.vscode/*
