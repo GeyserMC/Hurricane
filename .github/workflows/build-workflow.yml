@@ -1,4 +1,4 @@
-name: Build GeyserHacks
+name: Build Hurricane
 
 on: push
 
@@ -37,4 +37,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: spigot/target/GeyserHacks.jar
+          files: spigot/target/Hurricane.jar
