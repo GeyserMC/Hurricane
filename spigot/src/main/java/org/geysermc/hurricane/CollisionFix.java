@@ -12,6 +12,7 @@ import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.Contract;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
 
 public final class CollisionFix implements Listener {
     private final boolean bambooEnabled;
@@ -33,7 +34,9 @@ public final class CollisionFix implements Listener {
         if (bambooEnabled) {
             try {
                 final Class<?> bambooBlockClass = NMSReflection.getNMSClass("world.level.block", "BlockBamboo");
-                final Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, NMSReflection.mojmap ? "f" : "c"); // Bounding box for "no leaves", according to Yarn.
+                // Codec field being first bumps all fields - as of 1.20.5
+                boolean hasCodec = Arrays.stream(bambooBlockClass.getFields()).anyMatch(field -> field.getType().getSimpleName().equals("MapCodec"));
+                final Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, hasCodec ? "g" : NMSReflection.mojmap ? "f" : "c"); // Bounding box for "no leaves", according to Yarn.
                 applyNoBoundingBox(bambooBoundingBox);
                 plugin.getLogger().info("Bamboo collision hack enabled.");
             } catch (Exception e) {
