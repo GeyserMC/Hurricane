@@ -8,5 +8,5 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 - Allow Geyser players to ride pigs (by implementing the control server-side.) (Doesn't work on 1.20+)
 
 ## Supported Versions:
-- 1.14.x - 1.20.x for bamboo and dripstone fix
+- 1.14.x - 1.20.x for bamboo and dripstone collision fixes 
 - 1.17.x - 1.19.x for pig riding
