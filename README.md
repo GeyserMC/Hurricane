@@ -9,5 +9,5 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 	Fixes https://github.com/GeyserMC/Geyser/issues/638
 
 ## Supported Versions:
-- 1.14.x - 1.20.x for bamboo and dripstone collision fixes 
+- 1.14.x - 1.21 for bamboo and dripstone collision fixes 
 - 1.17.x - 1.19.x for pig/strider riding
