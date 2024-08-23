@@ -2,17 +2,20 @@ package org.geysermc.hurricane;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.geysermc.floodgate.api.FloodgateApi;
-import org.geysermc.geyser.GeyserImpl;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.NodePath;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.UUID;
-import java.util.function.Predicate;
+import org.spongepowered.configurate.transformation.ConfigurationTransformation;
+import org.spongepowered.configurate.transformation.TransformAction;
 
 public final class Hurricane extends JavaPlugin {
+
+    private final ConfigurationTransformation.Versioned transformer = ConfigurationTransformation.versionedBuilder()
+            .addVersion(1, noneToOne())
+            .build();
+
+    private static final int LATEST_CONFIG_VERSION = 1;
 
     @Override
     public void onEnable() {
@@ -24,7 +27,16 @@ public final class Hurricane extends JavaPlugin {
         final HurricaneConfiguration config;
         try {
             final CommentedConfigurationNode node = loader.load();
+
+            int version = transformer.version(node);
+
+            if (version != LATEST_CONFIG_VERSION) {
+                transformer.apply(node);
+            }
+
             config = node.get(HurricaneConfiguration.class);
+            node.set(HurricaneConfiguration.class, config);
+
             loader.save(node);
         } catch (ConfigurateException e) {
             getLogger().warning("Could not load config!");
@@ -32,6 +44,7 @@ public final class Hurricane extends JavaPlugin {
             return;
         }
 
+        assert config != null;
         final boolean bambooFixEnabled = config.collisionFixes().bamboo();
 
         final boolean pointedDripstoneFixEnabled;
@@ -49,39 +62,11 @@ public final class Hurricane extends JavaPlugin {
         if (bambooFixEnabled || pointedDripstoneFixEnabled) {
             Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled), this);
         }
+    }
 
-        if (config.itemSteerableFix()) {
-            NMSProvider providerImpl = null;
-            String name = Bukkit.getServer().getClass().getPackage().getName();
-            String nmsVersion = name.substring(name.lastIndexOf('.') + 1);
-            try {
-                Class<?> providerImplClass = Class.forName("org.geysermc.hurricane." + nmsVersion + ".NMSProviderImpl");
-                providerImpl = (NMSProvider) providerImplClass.getConstructor().newInstance();
-            } catch (ClassNotFoundException e) {
-                getLogger().warning("This Minecraft server version does not support the item steerable workaround!");
-            } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-
-            if (providerImpl != null) {
-                Predicate<UUID> playerChecker;
-                try {
-                    Class.forName("org.geysermc.floodgate.api.FloodgateApi");
-                    playerChecker = uuid -> FloodgateApi.getInstance().isFloodgatePlayer(uuid);
-                } catch (ClassNotFoundException e) {
-                    try {
-                        Class.forName("org.geysermc.geyser.GeyserImpl");
-                        playerChecker = uuid -> GeyserImpl.getInstance().connectionByUuid(uuid) != null;
-                    } catch (ClassNotFoundException e2) {
-                        getLogger().warning("Could not find Geyser or Floodgate; item steerable fix will not be applied.");
-                        playerChecker = null;
-                    }
-                }
-                if (playerChecker != null) {
-                    Bukkit.getPluginManager().registerEvents(new ItemSteerableFix(this, playerChecker, providerImpl), this);
-                    getLogger().info("Item steerable fix enabled.");
-                }
-            }
-        }
+    private ConfigurationTransformation noneToOne() {
+        return ConfigurationTransformation.builder()
+                .addAction(NodePath.path("item-steerable-fix"), TransformAction.remove())
+                .build();
     }
 }

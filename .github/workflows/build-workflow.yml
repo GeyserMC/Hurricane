@@ -1,38 +1,68 @@
-name: Build Hurricane
+name: Build
 
-on: push
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '.gitignore'
+      - 'LICENSE'
+      - 'README.md'
 
 jobs:
-  build-job:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up Java
-        uses: actions/setup-java@v3
+      - name: Setup Gradle
+        uses: GeyserMC/actions/setup-gradle-composite@master
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          setup-java_java-version: 21
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: Build Hurricane
+        run: ./gradlew build
 
-      - name: Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          gradle-home-cache-cleanup: true
-
-      - name: Archive artifacts (Geyser Fabric)
-        uses: actions/upload-artifact@v3
+      - name: Archive Artifacts
+        uses: GeyserMC/actions/upload-multi-artifact@master
         if: success()
         with:
-          name: Geyser Fabric
-          path: spigot/build/libs/hurricane-spigot.jar
-          if-no-files-found: error
+          artifacts: |
+            spigot/build/libs/hurricane-spigot.jar
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Get Version
+        if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
+        id: get-version
+        run: |
+          version=$(cat gradle.properties | grep -o "^version=[0-9\\.]*" | cut -d"=" -f2)
+          echo "VERSION=${version}" >> $GITHUB_OUTPUT
+
+      - name: Get Release Metadata
+        if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
+        uses: GeyserMC/actions/release@master
+        id: metadata
         with:
-          files: spigot/build/libs/hurricane-spigot.jar
+          appID: ${{ secrets.RELEASE_APP_ID }}
+          appPrivateKey: ${{ secrets.RELEASE_APP_PK }}
+          files: |
+            spigot:spigot/build/libs/hurricane-spigot.jar
+          releaseEnabled: false
+          saveMetadata: true
+          releaseProject: 'hurricane'
+          releaseVersion: ${{ steps.get-version.outputs.VERSION }}
+
+      - name: Publish to Downloads API
+        if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
+        uses: GeyserMC/actions/upload-release@master
+        with:
+          username: ${{ vars.DOWNLOADS_USERNAME }}
+          privateKey: ${{ secrets.DOWNLOADS_PRIVATE_KEY }}
+          host: ${{ secrets.DOWNLOADS_SERVER_IP }}
+          files: |
+            spigot/build/libs/hurricane-spigot.jar
+          changelog: ${{ steps.metadata.outputs.body }}
+
+      - name: Notify Discord
+        if: ${{ (success() || failure()) && github.repository == 'GeyserMC/Hurricane' }}
+        uses: GeyserMC/actions/notify-discord@master
+        with:
+          discordWebhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          body: ${{ steps.metadata.outputs.body }}
