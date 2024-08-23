@@ -5,7 +5,7 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 
 Fixes:
 - Bamboo and dripstone collision (by setting them to no server-side collision)
-- https://github.com/GeyserMC/Geyser/issues/638 by implementing the control server-side.
+- https://github.com/GeyserMC/Geyser/issues/638 by implementing the control server-side. (Doesn't work on 1.20+)
 
 Supported Versions:
 - 1.14.x - 1.19.x
