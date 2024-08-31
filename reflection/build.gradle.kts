@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.spigot.api)
+    compileOnly(libs.paper.api)
 }
 
 // found how to do this here https://github.com/JFormDesigner/markdown-writer-fx/blob/main/build.gradle.kts

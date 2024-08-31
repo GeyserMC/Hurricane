@@ -9,4 +9,5 @@ repositories {
 dependencies {
     implementation(libs.shadow)
     implementation(libs.paperweight)
+    implementation(libs.javadowngrader)
 }

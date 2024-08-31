@@ -4,7 +4,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    //mavenLocal()
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://oss.sonatype.org/content/groups/public/")
     maven("https://repo.opencollab.dev/maven-releases/")
@@ -14,7 +14,7 @@ repositories {
 
 group = properties["group"] as String
 version = properties["version"] as String
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {
     publications.create<MavenPublication>("maven") {
@@ -23,10 +23,6 @@ publishing {
 }
 
 tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Javadoc>() {
     options.encoding = "UTF-8"
 }
 
