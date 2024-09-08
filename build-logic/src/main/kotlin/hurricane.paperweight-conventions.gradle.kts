@@ -1,6 +1,6 @@
 
 plugins {
-    id("org.geysermc.hurricane.java-conventions")
+    id("hurricane.java-conventions")
     id("io.papermc.paperweight.userdev")
 }
 

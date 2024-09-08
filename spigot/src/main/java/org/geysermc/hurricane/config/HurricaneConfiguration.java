@@ -1,4 +1,4 @@
-package org.geysermc.hurricane;
+package org.geysermc.hurricane.config;
 
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;

@@ -1,5 +1,5 @@
 [versions]
-configurate ="4.0.0"
+configurate ="4.2.0-SNAPSHOT"
 geyser ="2.4.2-SNAPSHOT"
 floodgate ="2.2.3-SNAPSHOT"
 paper ="1.18.2-R0.1-SNAPSHOT"

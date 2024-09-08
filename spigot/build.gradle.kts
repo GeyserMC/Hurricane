@@ -1,5 +1,5 @@
 plugins {
-    id("org.geysermc.hurricane.shadow-conventions")
+    id("hurricane.shadow-conventions")
 }
 
 relocate("org.spongepowered.configurate")

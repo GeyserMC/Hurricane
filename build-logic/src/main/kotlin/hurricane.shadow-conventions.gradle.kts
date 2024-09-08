@@ -1,5 +1,5 @@
 plugins {
-    id("org.geysermc.hurricane.java-conventions")
+    id("hurricane.java-conventions")
     id("com.gradleup.shadow")
     id("xyz.wagyourtail.jvmdowngrader")
 }

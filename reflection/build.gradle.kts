@@ -2,7 +2,7 @@ import org.gradle.plugins.ide.eclipse.model.AbstractClasspathEntry
 import org.gradle.plugins.ide.eclipse.model.AccessRule
 
 plugins {
-    id("org.geysermc.hurricane.java-conventions")
+    id("hurricane.java-conventions")
     // suppress unsafe access errors for eclipse
     id("eclipse")
 }
