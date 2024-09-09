@@ -18,13 +18,11 @@ public final class ConfigLoader {
     private static final int LATEST_CONFIG_VERSION = 1;
 
     public static HurricaneConfiguration loadConfig(Path dataFolder) throws ConfigurateException {
-
         final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
                 .path(dataFolder.resolve("hurricane.conf"))
                 .defaultOptions(opts -> opts.header("Hurricane Configuration"))
                 .build();
 
-        final HurricaneConfiguration config;
         final CommentedConfigurationNode node = loader.load();
 
         int version = TRANSFORMER.version(node);
@@ -33,9 +31,11 @@ public final class ConfigLoader {
             TRANSFORMER.apply(node);
         }
 
-        config = node.get(HurricaneConfiguration.class);
+        final HurricaneConfiguration config = node.get(HurricaneConfiguration.class);
         node.set(HurricaneConfiguration.class, config);
 
+        // Save config again to e.g. add need options, or create the initial config
+        // Hocon automatically sorts configuration options alphabetically, so we don't need an intermediary node
         loader.save(node);
 
         return config;
