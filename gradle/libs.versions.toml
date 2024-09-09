@@ -1,0 +1,27 @@
+[versions]
+configurate ="4.2.0-SNAPSHOT"
+geyser ="2.4.2-SNAPSHOT"
+floodgate ="2.2.3-SNAPSHOT"
+paper ="1.18.2-R0.1-SNAPSHOT"
+paperweight = "1.5.5"
+shadow = "8.3.0"
+javadowngrader = "1.0.0"
+
+[libraries]
+configurate-hocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
+floodgate-api = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
+geyser-api = { group = "org.geysermc.geyser", name = "api", version.ref = "geyser" }
+paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
+paperweight = { group = "io.papermc.paperweight", name = "paperweight-userdev", version.ref = "paperweight" }
+shadow = { group = "com.gradleup.shadow", name = "shadow-gradle-plugin", version.ref = "shadow" }
+javadowngrader = { group = "xyz.wagyourtail.jvmdowngrader", name = "gradle-plugin", version.ref = "javadowngrader" }
+
+[bundles]
+geyser = [
+    "floodgate-api",
+    "geyser-api"
+]
+
+[plugins]
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
+paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
