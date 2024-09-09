@@ -34,7 +34,7 @@ public final class ConfigLoader {
         final HurricaneConfiguration config = node.get(HurricaneConfiguration.class);
         node.set(HurricaneConfiguration.class, config);
 
-        // Save config again to e.g. add need options, or create the initial config
+        // Save config again to e.g. add new options, or to create the file
         // Hocon automatically sorts configuration options alphabetically, so we don't need an intermediary node
         loader.save(node);
 
