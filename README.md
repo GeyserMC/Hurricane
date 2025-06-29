@@ -9,4 +9,4 @@ Download here: [Hurricane Download](https://download.geysermc.org/v2/projects/hu
 - Bamboo and dripstone collision (by setting them to no server-side collision)
 
 Supported Versions:
-- 1.14.x - 1.21.1
+- 1.14.x - 1.21.6
