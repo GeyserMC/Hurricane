@@ -34,9 +34,11 @@ public final class CollisionFix implements Listener {
         if (bambooEnabled) {
             try {
                 final Class<?> bambooBlockClass = NMSReflection.getNMSClass("world.level.block", "BlockBamboo");
-                // Codec field being first bumps all fields - as of 1.20.5
-                boolean hasCodec = Arrays.stream(bambooBlockClass.getFields()).anyMatch(field -> field.getType().getSimpleName().equals("MapCodec"));
-                final Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, hasCodec ? "g" : NMSReflection.mojmap ? "f" : "c"); // Bounding box for "no leaves", according to Yarn.
+                final boolean newerThanOrEqualTo1170 = NMSReflection.mojmap;
+                // Codec field being first bumps all fields - as of 1.20.4
+                final boolean newerThanOrEqualTo1204 = Arrays.stream(bambooBlockClass.getFields()).anyMatch(field -> field.getType().getSimpleName().equals("MapCodec"));
+                final boolean newerThanOrEqualTo1215 = NMSReflection.getNMSClass("world.level.block", "LeafLitterBlock") != null;
+                final Field bambooBoundingBox = ReflectionAPI.getFieldAccessible(bambooBlockClass, newerThanOrEqualTo1215 ? "S" : newerThanOrEqualTo1204 ? "g" : newerThanOrEqualTo1170 ? "f" : "c"); // Bounding box for "no leaves", according to Yarn.
                 applyNoBoundingBox(bambooBoundingBox);
                 plugin.getLogger().info("Bamboo collision hack enabled.");
             } catch (Exception e) {

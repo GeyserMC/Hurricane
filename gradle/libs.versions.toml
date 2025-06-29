@@ -3,8 +3,8 @@ configurate ="4.2.0-SNAPSHOT"
 geyser ="2.4.2-SNAPSHOT"
 floodgate ="2.2.3-SNAPSHOT"
 paper ="1.18.2-R0.1-SNAPSHOT"
-paperweight = "1.5.5"
-shadow = "8.3.0"
+paperweight = "1.7.7"
+shadow = "9.0.0-beta17"
 javadowngrader = "1.0.0"
 
 [libraries]
