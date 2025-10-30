@@ -26,6 +26,8 @@ jobs:
         with:
           artifacts: |
             spigot/build/libs/hurricane-spigot.jar
+            fabric/build/libs/hurricane-fabric.jar
+            neoforge/build/libs/hurricane-neoforge.jar
 
       - name: Get Version
         if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
@@ -43,6 +45,8 @@ jobs:
           appPrivateKey: ${{ secrets.RELEASE_APP_PK }}
           files: |
             spigot:spigot/build/libs/hurricane-spigot.jar
+            fabric:fabric/build/libs/hurricane-fabric.jar
+            neoforge:neoforge/build/libs/hurricane-neoforge.jar
           releaseEnabled: false
           saveMetadata: true
           releaseProject: 'hurricane'
@@ -57,6 +61,8 @@ jobs:
           host: ${{ secrets.DOWNLOADS_SERVER_IP }}
           files: |
             spigot/build/libs/hurricane-spigot.jar
+            fabric/build/libs/hurricane-fabric.jar
+            neoforge/build/libs/hurricane-neoforge.jar
           changelog: ${{ steps.metadata.outputs.body }}
 
       - name: Notify Discord

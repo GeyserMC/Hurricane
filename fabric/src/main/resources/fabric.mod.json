@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "$id",
+	"version": "$version",
+	"name": "$name",
+	"description": "$description",
+	"authors": [
+		"GeyserMC"
+	],
+	"contact": {
+		"homepage": "https://geysermc.org/wiki/other/hurricane",
+		"sources": "https://github.com/GeyserMC/Hurricane"
+	},
+	"license": "MIT",
+	"icon": "assets/hurricane/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "org.geysermc.hurricane.platform.fabric.FabricHurricaneMod"
+		]
+	},
+	"mixins": [
+		"hurricane.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.8",
+		"minecraft": ">=1.21.3",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

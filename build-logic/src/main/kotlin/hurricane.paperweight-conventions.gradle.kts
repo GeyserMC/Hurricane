@@ -1,6 +1,7 @@
+import org.gradle.kotlin.dsl.invoke
 
 plugins {
-    id("hurricane.java-conventions")
+    id("hurricane.build-logic")
     id("io.papermc.paperweight.userdev")
 }
 

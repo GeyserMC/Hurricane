@@ -1,5 +1,6 @@
 plugins {
     id("hurricane.shadow-conventions")
+    id("hurricane.downgrader-conventions")
 }
 
 relocate("org.spongepowered.configurate")

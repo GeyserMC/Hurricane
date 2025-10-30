@@ -1,5 +1,5 @@
 # Hurricane
-Various workarounds for Geyser players that modify the server in order to achieve their goal.
+Various workarounds for Bedrock players playing on Java servers through Geyser that modify the server in order to achieve their goal.
 
 Issues with each workaround are listed in the plugin's config. **Please take your time to read them as the workarounds in this plugin can be used for exploitative purposes.**
 
