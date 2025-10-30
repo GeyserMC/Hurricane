@@ -8,11 +8,8 @@ relocate("io.leangen.geantyref")
 relocate("com.typesafe.config")
 
 dependencies {
-    api(libs.configurate.hocon) {
-        exclude("org.checkerframework")
-    }
-    api(project(":reflection"))
-    compileOnly(libs.bundles.geyser)
+    api(projects.reflection)
+    api(projects.core)
     compileOnly(libs.paper.api)
 }
 

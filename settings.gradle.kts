@@ -4,6 +4,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "hurricane-parent"
 include(":reflection")
+include(":core")
 include(":mod-shared")
 include(":fabric")
 include(":neoforge")

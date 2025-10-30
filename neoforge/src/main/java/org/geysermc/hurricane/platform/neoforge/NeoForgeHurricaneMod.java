@@ -7,10 +7,11 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
-import org.geysermc.hurricane.Hurricane;
+import org.geysermc.hurricane.HurricaneMod;
+import org.geysermc.hurricane.config.HurricaneConfiguration;
 
 @Mod("hurricane")
-public class NeoForgeHurricaneMod extends Hurricane {
+public class NeoForgeHurricaneMod extends HurricaneMod {
 
     public NeoForgeHurricaneMod() {
         super();
@@ -18,11 +19,11 @@ public class NeoForgeHurricaneMod extends Hurricane {
     }
 
     private void onServerStart(ServerStartedEvent event) {
-        super.onHurricaneInitialize();
+        enable(configuration());
     }
 
     @Override
-    public void registerBlockPlaceEvent() {
+    public void registerCollisionFixes(HurricaneConfiguration configuration) {
         NeoForge.EVENT_BUS.addListener(this::onBlockPlace);
     }
 

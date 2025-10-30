@@ -1,6 +1,5 @@
-package org.geysermc.hurricane.util;
+package org.geysermc.hurricane;
 
-import org.geysermc.hurricane.Hurricane;
 import org.geysermc.floodgate.api.FloodgateApi;
 import org.geysermc.geyser.api.GeyserApi;
 
@@ -9,8 +8,7 @@ import java.util.UUID;
 public class BedrockUtils {
 
     private static boolean floodgatePresent;
-
-    private static boolean geyserPresent = false;
+    private static boolean geyserPresent;
 
     static {
         try {
@@ -23,13 +21,12 @@ public class BedrockUtils {
                 geyserPresent = true;
             } catch (ClassNotFoundException ex) {
                 geyserPresent = false;
-                Hurricane.LOGGER.debug("Geyser/Floodgate not found, disabling Bedrock support.");
             }
         }
     }
 
     public static boolean isGeyserOrFloodgateInstalled() {
-            return floodgatePresent || geyserPresent;
+        return floodgatePresent || geyserPresent;
     }
 
     public static boolean isBedrockPlayer(UUID uuid){

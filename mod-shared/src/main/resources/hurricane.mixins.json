@@ -3,12 +3,11 @@
   "package": "org.geysermc.hurricane.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "org.geysermc.hurricane.mixin.BambooBlockMixin",
-    "org.geysermc.hurricane.mixin.PointedDripstoneBlockMixin",
-    "org.geysermc.hurricane.mixin.ServerPlayerInteractionManagerMixin"
+    "BambooBlockMixin",
+    "PointedDripstoneBlockMixin"
   ],
   "plugin": "org.geysermc.hurricane.mixin.MixinConfigPlugin",
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

@@ -19,7 +19,7 @@ configurations {
 
 dependencies {
     neoForge(libs.neoforge)
-    common(project(":mod-shared", configuration = "namedElements")) { isTransitive = false }
+    common(project(":mod-shared", configuration = "namedElements"))
     shadow(project(path = ":mod-shared", configuration = "transformProductionNeoForge")) { isTransitive = false }
 
     include(libs.configurate.hocon)

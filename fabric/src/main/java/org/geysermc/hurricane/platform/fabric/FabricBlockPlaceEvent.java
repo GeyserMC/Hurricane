@@ -12,8 +12,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class FabricBlockPlaceEvent {
 
-    // TODO: proper checks
-    public void registerInteractBlockCallback() {
+    // TODO: proper checks, separate!!!
+    public static void registerInteractBlockCallback() {
         UseBlockCallback.EVENT.register((player, level, hand, blockHitResult) -> {
             Item item = player.getItemInHand(hand).getItem();
             if (item.equals(Items.BAMBOO)) {

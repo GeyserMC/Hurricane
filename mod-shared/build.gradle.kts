@@ -15,6 +15,7 @@ dependencies {
     compileOnly(libs.geyser.api)
 
     api(libs.configurate.hocon)
+    api(projects.core)
 
     compileOnly(libs.mixin)
     compileOnly(libs.asm)

@@ -28,7 +28,7 @@ tasks {
 dependencies {
     modImplementation(libs.fabric.loader)
     modApi(libs.fabric.api)
-    common(project(":mod-shared", configuration = "namedElements")) { isTransitive = false }
+    common(project(":mod-shared", configuration = "namedElements"))
     shadow(project(path = ":mod-shared", configuration = "transformProductionFabric")) {
         isTransitive = false
     }

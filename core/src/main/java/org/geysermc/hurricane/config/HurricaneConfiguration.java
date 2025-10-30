@@ -31,5 +31,19 @@ public final class HurricaneConfiguration {
         public boolean pointedDripstone() {
             return pointedDripstone;
         }
+
+        public void setBamboo(boolean bamboo) {
+            this.bamboo = bamboo;
+        }
+
+        public void setPointedDripstone(boolean pointedDripstone) {
+            this.pointedDripstone = pointedDripstone;
+        }
+    }
+
+    @ConfigSerializable
+    public static final class BlockBreakingFixes {
+        private boolean applyToJava = false;
+        // TODO
     }
 }

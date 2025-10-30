@@ -3,10 +3,6 @@ plugins {
     `maven-publish`
 }
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
 tasks {
     processResources {
         filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml")) {
@@ -22,6 +18,10 @@ tasks {
                 "version" to properties["version"]
             )
         }
+    }
+
+    withType(JavaCompile::class) {
+        options.encoding = "UTF-8"
     }
 }
 
@@ -42,9 +42,3 @@ repositories {
 group = properties["group"] as String
 version = properties["version"] as String
 java.sourceCompatibility = JavaVersion.VERSION_21
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
-    }
-}
