@@ -4,7 +4,7 @@ plugins {
 }
 
 repositories {
-    //mavenLocal()
+    // mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.opencollab.dev/maven-releases/")

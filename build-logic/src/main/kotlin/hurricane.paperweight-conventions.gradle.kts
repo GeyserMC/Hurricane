@@ -1,4 +1,3 @@
-
 plugins {
     id("hurricane.java-conventions")
     id("io.papermc.paperweight.userdev")
