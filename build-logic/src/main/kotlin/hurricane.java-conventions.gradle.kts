@@ -13,7 +13,7 @@ repositories {
 
 group = project.property("group")as String
 version = project.property("version") as String
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 publishing {
     publications.create<MavenPublication>("maven") {
