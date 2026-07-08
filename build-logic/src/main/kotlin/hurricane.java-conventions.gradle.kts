@@ -11,8 +11,8 @@ repositories {
     maven("https://repo.opencollab.dev/maven-snapshots/")
 }
 
-group = properties["group"] as String
-version = properties["version"] as String
+group = project.property("group")as String
+version = project.property("version") as String
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 publishing {
@@ -29,7 +29,7 @@ tasks {
     processResources {
         filesMatching(listOf("plugin.yml")) {
             expand(
-                "version" to properties["version"]
+                "version" to project.version
             )
         }
     }
