@@ -4,8 +4,6 @@ import sun.misc.Unsafe;
 import sun.reflect.ReflectionFactory;
 
 import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
 
 // From ViaRewind Legacy Support. Am not touching this unless I have to.
 public final class ReflectionAPI {
