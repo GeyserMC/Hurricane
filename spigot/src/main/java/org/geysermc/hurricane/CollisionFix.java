@@ -55,7 +55,7 @@ public final class CollisionFix implements Listener {
         if (pointedDripstoneEnabled) {
             // We need to disable all dripstone collision, and there's six...
             try {
-                final Class<?> dripstoneBlockClass = NMSReflection.getMojmapNMSClass("world.level.block.PointedDripstoneBlock");
+                final Class<?> dripstoneBlockClass = NMSReflection.getNMSClass("world.level.block", "PointedDripstoneBlock", "SpeleothemBlock");
                 // The method names change between versions, but there's always six next to each other.
                 // There is one we do not need to touch (1.18+) because it doesn't deal with collision.
                 boolean foundBoundingBoxes = false;
