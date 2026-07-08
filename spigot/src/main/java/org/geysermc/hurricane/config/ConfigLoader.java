@@ -10,7 +10,6 @@ import org.spongepowered.configurate.transformation.TransformAction;
 import java.nio.file.Path;
 
 public final class ConfigLoader {
-
     private final static ConfigurationTransformation.Versioned TRANSFORMER = ConfigurationTransformation.versionedBuilder()
             .addVersion(1, noneToOne())
             .build();
