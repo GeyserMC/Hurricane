@@ -10,7 +10,7 @@ tasks {
     }
 
     shadowJar {
-        archiveClassifier.set("shaded")
+        archiveClassifier.set("")
         archiveVersion.set("")
     }
 
