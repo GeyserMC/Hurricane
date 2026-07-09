@@ -16,3 +16,6 @@ You can download Hurricane-Spigot using this link: https://download.geysermc.org
 
 ## Compatibility
 Hurricane-Spigot currently supports Minecraft: Java Edition 1.14.x through 26.2.
+
+## Support
+If you need Hurricane-Spigot support, please use the [Issues](https://github.com/GeyserMC/Hurricane/issues) GitHub tab to report issues or join the [GeyserMC Discord server](https://discord.gg/geysermc).
