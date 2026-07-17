@@ -24,12 +24,18 @@ public final class HurricaneConfiguration {
         private boolean bamboo = true;
         private boolean pointedDripstone = true;
 
+        private boolean turtleEgg = true;
+
         public boolean bamboo() {
             return bamboo;
         }
 
         public boolean pointedDripstone() {
             return pointedDripstone;
+        }
+
+        public boolean turtleEgg() {
+            return turtleEgg;
         }
     }
 }

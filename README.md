@@ -7,7 +7,7 @@ Issues with each workaround are listed in the plugin's config. **Please take you
 Download here: [Hurricane Download](https://download.geysermc.org/v2/projects/hurricane/versions/latest/builds/latest/downloads/spigot)
 
 ## Fixes:
-- Bamboo and dripstone collision (by setting them to no server-side collision)
+- Bamboo, dripstone and turtle egg collision (by setting them to no server-side collision)
 
 Supported Versions:
 - 1.14.x - 26.1

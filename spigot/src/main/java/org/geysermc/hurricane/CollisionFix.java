@@ -26,7 +26,7 @@ public final class CollisionFix implements Listener {
     private final BoundingBox middleDripstoneBox = box(3D, 0D, 3D, 13D, 16D, 13D);
     private final BoundingBox baseDripstoneBox = box(2D, 0D, 2D, 14D, 16D, 14D);
 
-    public CollisionFix(Plugin plugin, boolean bambooEnabled, boolean pointedDripstoneEnabled) {
+    public CollisionFix(Plugin plugin, boolean bambooEnabled, boolean pointedDripstoneEnabled, boolean turtleEggEnabled) {
         // Make any given block have zero collision. Lagback solved...!
         this.bambooEnabled = bambooEnabled;
         this.pointedDripstoneEnabled = pointedDripstoneEnabled;
@@ -78,6 +78,41 @@ public final class CollisionFix implements Listener {
                 e.printStackTrace();
             }
         }
+        if (turtleEggEnabled) {
+            try {
+                final Class<?> turtleEggBlockClass = NMSReflection.getNMSClass("world.level.block", "BlockTurtleEgg", "TurtleEggBlock");
+                final Field singleEggShape = getStaticVoxelShapeField(turtleEggBlockClass, 0);
+                final Field multipleEggsShape = getStaticVoxelShapeField(turtleEggBlockClass, 1);
+                if (singleEggShape == null || multipleEggsShape == null) {
+                    plugin.getLogger().warning("Could not find both turtle egg shapes - skipping the turtle egg fix.");
+                } else {
+                    applyNoBoundingBox(singleEggShape);
+                    applyNoBoundingBox(multipleEggsShape);
+                    plugin.getLogger().info("Turtle egg collision hack enabled.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Finds the nth static VoxelShape field of a class, counting in declaration order.
+     */
+    private static Field getStaticVoxelShapeField(final Class<?> clazz, final int index) {
+        if (clazz == null) {
+            return null;
+        }
+        int found = 0;
+        for (Field field : clazz.getDeclaredFields()) {
+            if (Modifier.isStatic(field.getModifiers()) && field.getType().getSimpleName().equals("VoxelShape")) {
+                if (found++ == index) {
+                    field.setAccessible(true);
+                    return field;
+                }
+            }
+        }
+        return null;
     }
 
     /**
