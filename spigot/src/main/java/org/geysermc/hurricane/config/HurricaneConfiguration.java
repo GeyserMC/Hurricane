@@ -26,6 +26,8 @@ public final class HurricaneConfiguration {
 
         private boolean turtleEgg = true;
 
+        private boolean copperBars = true;
+
         public boolean bamboo() {
             return bamboo;
         }
@@ -36,6 +38,10 @@ public final class HurricaneConfiguration {
 
         public boolean turtleEgg() {
             return turtleEgg;
+        }
+
+        public boolean copperBars() {
+            return copperBars;
         }
     }
 }

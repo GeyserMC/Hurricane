@@ -26,7 +26,7 @@ public final class CollisionFix implements Listener {
     private final BoundingBox middleDripstoneBox = box(3D, 0D, 3D, 13D, 16D, 13D);
     private final BoundingBox baseDripstoneBox = box(2D, 0D, 2D, 14D, 16D, 14D);
 
-    public CollisionFix(Plugin plugin, boolean bambooEnabled, boolean pointedDripstoneEnabled, boolean turtleEggEnabled) {
+    public CollisionFix(Plugin plugin, boolean bambooEnabled, boolean pointedDripstoneEnabled, boolean turtleEggEnabled, boolean copperBarsEnabled) {
         // Make any given block have zero collision. Lagback solved...!
         this.bambooEnabled = bambooEnabled;
         this.pointedDripstoneEnabled = pointedDripstoneEnabled;
@@ -94,7 +94,149 @@ public final class CollisionFix implements Listener {
                 e.printStackTrace();
             }
         }
+        if (copperBarsEnabled) {
+            try {
+                applyCopperBarsFix(plugin);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+    /**
+     * Replaces copper bars' server collision with the Bedrock shape: each connected side runs its arm
+     * only to the block centre (0.5) and drops the far post half, so a free end sits at 0.5 instead of
+     * Java's 0.5625. That lets the Bedrock client walk its extra 0.0625 into the end without the server
+     * yanking it back, while the bar still blocks like a bar (unlike a full zero-collision hack).
+     *
+     * Newer NMS stores the collision as a Function<BlockState, VoxelShape> (field "collisionShapes"),
+     * so we swap in a function that returns the Bedrock shape for the state's N/E/S/W.
+     */
+    private void applyCopperBarsFix(Plugin plugin) throws Exception {
+        final Class<?> shapesClass = NMSReflection.getNMSClass("world.phys.shapes", "VoxelShapes", "Shapes");
+        final Class<?> crossCollisionBlockClass = NMSReflection.getMojmapNMSClass("world.level.block.CrossCollisionBlock");
+        if (shapesClass == null || crossCollisionBlockClass == null) {
+            plugin.getLogger().warning("Could not resolve Shapes/CrossCollisionBlock - skipping the copper bars fix.");
+            return;
+        }
+        final Object emptyShape = createEmptyShape(shapesClass);
+
+        // Precompute the 16 Bedrock shapes by N/E/S/W combination (bit0=N, 1=E, 2=S, 3=W).
+        final Object[] shapeByCombo = new Object[16];
+        for (int i = 0; i < 16; i++) {
+            shapeByCombo[i] = buildBedrockBarsShape(shapesClass, i);
+        }
+
+        // NORTH/EAST/SOUTH/WEST BooleanProperty live on CrossCollisionBlock; read them off a state.
+        final Object north = ReflectionAPI.getFieldAccessible(crossCollisionBlockClass, "NORTH").get(null);
+        final Object east = ReflectionAPI.getFieldAccessible(crossCollisionBlockClass, "EAST").get(null);
+        final Object south = ReflectionAPI.getFieldAccessible(crossCollisionBlockClass, "SOUTH").get(null);
+        final Object west = ReflectionAPI.getFieldAccessible(crossCollisionBlockClass, "WEST").get(null);
+        final Class<?> blockStateClass = NMSReflection.getMojmapNMSClass("world.level.block.state.BlockState");
+        final Class<?> propertyClass = NMSReflection.getMojmapNMSClass("world.level.block.state.properties.Property");
+        final Method getValue = ReflectionAPI.getMethod(blockStateClass, "getValue", propertyClass);
+
+        final java.util.function.Function<Object, Object> bedrockShapeFn = state -> {
+            try {
+                int idx = 0;
+                if ((Boolean) getValue.invoke(state, north)) idx |= 1;
+                if ((Boolean) getValue.invoke(state, east)) idx |= 2;
+                if ((Boolean) getValue.invoke(state, south)) idx |= 4;
+                if ((Boolean) getValue.invoke(state, west)) idx |= 8;
+                return shapeByCombo[idx];
+            } catch (Exception e) {
+                return emptyShape;
+            }
+        };
+
+        final Field collisionFn = findFunctionField(crossCollisionBlockClass, "collisionShapes");
+        if (collisionFn == null) {
+            plugin.getLogger().warning("Could not find CrossCollisionBlock.collisionShapes - skipping the copper bars fix.");
+            return;
+        }
+        collisionFn.setAccessible(true);
+
+        final Class<?> registriesClass = NMSReflection.getMojmapNMSClass("core.registries.BuiltInRegistries");
+        final Object blockRegistry = registriesClass.getField("BLOCK").get(null);
+        final Method getKey = ReflectionAPI.getMethod(blockRegistry.getClass(), "getKey", Object.class);
+
+        int patched = 0;
+        for (Object block : (Iterable<?>) blockRegistry) {
+            final Object key = getKey.invoke(blockRegistry, block);
+            if (key == null || !key.toString().contains("copper_bars")) {
+                continue;
+            }
+            ReflectionAPI.setFinalValue(block, collisionFn, bedrockShapeFn);
+            plugin.getLogger().info("Copper bars collision -> Bedrock shape: " + key);
+            patched++;
+        }
+        plugin.getLogger().info("Copper bars collision hack enabled (" + patched + " variants).");
+    }
+
+    /** Bedrock thin-bar shape: an arm from each connected edge to the centre, or the post if none. */
+    private Object buildBedrockBarsShape(Class<?> shapesClass, int index) throws Exception {
+        final boolean north = (index & 1) != 0;
+        final boolean east = (index & 2) != 0;
+        final boolean south = (index & 4) != 0;
+        final boolean west = (index & 8) != 0;
+
+        if (!north && !east && !south && !west) {
+            return createVoxelShape(shapesClass, 7, 0, 7, 9, 16, 9); // centre post
+        }
+        Object shape = null;
+        if (north) shape = orShape(shapesClass, shape, createVoxelShape(shapesClass, 7, 0, 0, 9, 16, 8));
+        if (south) shape = orShape(shapesClass, shape, createVoxelShape(shapesClass, 7, 0, 8, 9, 16, 16));
+        if (west)  shape = orShape(shapesClass, shape, createVoxelShape(shapesClass, 0, 0, 7, 8, 16, 9));
+        if (east)  shape = orShape(shapesClass, shape, createVoxelShape(shapesClass, 8, 0, 7, 16, 16, 9));
+        return shape;
+    }
+
+    private Object orShape(Class<?> shapesClass, Object a, Object b) throws Exception {
+        if (a == null) {
+            return b;
+        }
+        final Class<?> voxelShapeClass = NMSReflection.getNMSClass("world.phys.shapes", "VoxelShape");
+        final Object varargs = Array.newInstance(voxelShapeClass, 1);
+        Array.set(varargs, 0, b);
+        final Method or = ReflectionAPI.getMethod(shapesClass, "or", voxelShapeClass, varargs.getClass());
+        return or.invoke(null, a, varargs);
+    }
+
+    /** Builds a VoxelShape from pixel (0-16) coordinates via NMS Shapes. */
+    private Object createVoxelShape(Class<?> shapesClass, double x1, double y1, double z1, double x2, double y2, double z2) throws Exception {
+        Method box;
+        try {
+            box = ReflectionAPI.getMethod(shapesClass, "box",
+                    double.class, double.class, double.class, double.class, double.class, double.class);
+        } catch (NoSuchMethodException e) {
+            box = ReflectionAPI.getMethod(shapesClass, "b",
+                    double.class, double.class, double.class, double.class, double.class, double.class);
+        }
+        return box.invoke(null, x1 / 16D, y1 / 16D, z1 / 16D, x2 / 16D, y2 / 16D, z2 / 16D);
+    }
+
+    /** Function field, preferring the named one, searching up the class hierarchy. */
+    private static Field findFunctionField(Class<?> clazz, String preferredName) {
+        for (Class<?> c = clazz; c != null && c != Object.class; c = c.getSuperclass()) {
+            for (Field field : c.getDeclaredFields()) {
+                if (field.getType() == java.util.function.Function.class && field.getName().equals(preferredName)) {
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Object createEmptyShape(Class<?> shapesClass) throws Exception {
+        Method empty;
+        try {
+            empty = ReflectionAPI.getMethod(shapesClass, "empty");
+        } catch (NoSuchMethodException e) {
+            empty = ReflectionAPI.getMethod(shapesClass, "a");
+        }
+        return empty.invoke(null);
+    }
+
 
     /**
      * Finds the nth static VoxelShape field of a class, counting in declaration order.

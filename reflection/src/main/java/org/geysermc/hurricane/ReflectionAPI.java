@@ -342,8 +342,12 @@ public final class ReflectionAPI {
     }
 
     public static void setFinalValue(Object object, Field field, Object value) throws IllegalAccessException {
-        setFieldNotFinal(field);
-        field.set(object, value);
+        if (unsafe != null) {
+            setJava16Field(object, field, value);
+        } else {
+            setFieldNotFinal(field);
+            field.set(object, value);
+        }
     }
 
     public static void setValuePrintException(Class clazz, Object object, String fieldname, Object value) {

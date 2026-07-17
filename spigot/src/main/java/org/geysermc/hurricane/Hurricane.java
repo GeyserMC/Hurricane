@@ -36,8 +36,10 @@ public final class Hurricane extends JavaPlugin {
 
         final boolean turtleEggFixEnabled = config.collisionFixes().turtleEgg();
 
-        if (bambooFixEnabled || pointedDripstoneFixEnabled || turtleEggFixEnabled) {
-            Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled, turtleEggFixEnabled), this);
+        final boolean copperBarsFixEnabled = config.collisionFixes().copperBars();
+
+        if (bambooFixEnabled || pointedDripstoneFixEnabled || turtleEggFixEnabled || copperBarsFixEnabled) {
+            Bukkit.getPluginManager().registerEvents(new CollisionFix(this, bambooFixEnabled, pointedDripstoneFixEnabled, turtleEggFixEnabled, copperBarsFixEnabled), this);
         }
     }
 }
