@@ -1,0 +1,8 @@
+name: Hurricane
+version: ${version}
+main: org.geysermc.hurricane.paper.HurricanePaper
+api-version: '1.20'
+folia-supported: true
+authors: [GeyserMC]
+description: Per-player Bedrock block collision fixes for randomly offset blocks
+softdepend: [Geyser-Spigot, floodgate]

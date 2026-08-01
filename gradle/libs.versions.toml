@@ -1,27 +1,45 @@
 [versions]
-configurate ="4.2.0-SNAPSHOT"
-geyser ="2.4.2-SNAPSHOT"
-floodgate ="2.2.3-SNAPSHOT"
-paper ="1.18.2-R0.1-SNAPSHOT"
-paperweight = "1.7.7"
-shadow = "9.0.0-beta17"
-javadowngrader = "1.0.0"
+indra = "4.0.0"
+junit = "6.1.2"
+paper = "26.2.build.62-beta"
+geyser = "2.11.0-SNAPSHOT"
+floodgate = "2.2.5-SNAPSHOT"
+paper-minimum = "1.20.5-R0.1-20240429.035133-20"
+geyser-minimum = "2.1.0-SNAPSHOT"
+shadow = "9.6.0"
+architectury-plugin = "3.5.169"
+architectury-loom = "1.17.491"
+minecraft = "26.2"
+fabric-loader = "0.19.3"
+fabric-api = "0.155.2+26.2"
+neoforge = "26.2.0.25-beta"
+mixin = "0.8.7"
+adventure = "4.17.0"
+guava = "32.1.2-jre"
+minotaur = "2.+"
 
 [libraries]
-configurate-hocon = { group = "org.spongepowered", name = "configurate-hocon", version.ref = "configurate" }
-floodgate-api = { group = "org.geysermc.floodgate", name = "api", version.ref = "floodgate" }
-geyser-api = { group = "org.geysermc.geyser", name = "api", version.ref = "geyser" }
-paper-api = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
-paperweight = { group = "io.papermc.paperweight", name = "paperweight-userdev", version.ref = "paperweight" }
-shadow = { group = "com.gradleup.shadow", name = "shadow-gradle-plugin", version.ref = "shadow" }
-javadowngrader = { group = "xyz.wagyourtail.jvmdowngrader", name = "gradle-plugin", version.ref = "javadowngrader" }
-
-[bundles]
-geyser = [
-    "floodgate-api",
-    "geyser-api"
-]
+indra = { module = "net.kyori:indra-common", version.ref = "indra" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+paper-api = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+geyser-api = { module = "org.geysermc.geyser:api", version.ref = "geyser" }
+floodgate-api = { module = "org.geysermc.floodgate:api", version.ref = "floodgate" }
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric-api" }
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
+adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+shadow-plugin = { module = "com.gradleup.shadow:com.gradleup.shadow.gradle.plugin", version.ref = "shadow" }
+minotaur = { module = "com.modrinth.minotaur:Minotaur", version.ref = "minotaur" }
+architectury-plugin-library = { module = "architectury-plugin:architectury-plugin.gradle.plugin", version.ref = "architectury-plugin" }
+architectury-loom-plugin = { module = "dev.architectury.loom-no-remap:dev.architectury.loom-no-remap.gradle.plugin", version.ref = "architectury-loom" }
+loom-companion-plugin = { module = "dev.architectury.loom-companion:dev.architectury.loom-companion.gradle.plugin", version.ref = "architectury-loom" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
-paperweight = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
+architectury = { id = "architectury-plugin", version.ref = "architectury-plugin" }
+architectury-loom = { id = "dev.architectury.loom-no-remap", version.ref = "architectury-loom" }

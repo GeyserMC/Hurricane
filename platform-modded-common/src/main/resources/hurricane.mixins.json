@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.geysermc.hurricane.modded.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BambooStalkBlockMixin",
+    "PointedDripstoneBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

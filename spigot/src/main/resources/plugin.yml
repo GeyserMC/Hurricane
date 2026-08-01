@@ -1,7 +1,0 @@
-name: Hurricane
-version: ${version}
-main: org.geysermc.hurricane.Hurricane
-api-version: 1.13
-authors: [ GeyserMC ]
-folia-supported: true
-softdepend: [Geyser-Spigot, floodgate]

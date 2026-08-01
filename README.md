@@ -1,13 +1,30 @@
 # Hurricane
 
-Various workarounds for Geyser players that modify the server in order to achieve their goal.
+Hurricane removes the bamboo and pointed-dripstone rubberbanding that Bedrock
+players hit through Geyser, without changing collision for Java players or mobs.
 
-Issues with each workaround are listed in the plugin's config. **Please take your time to read them as the workarounds in this plugin can be used for exploitative purposes.**
+Java and Bedrock apply a different position-based random offset to bamboo and
+pointed dripstone, so the stalk the Bedrock client renders never lines up with
+the one the Java server collides against. Walking past it then triggers movement
+correction. Hurricane gives each Bedrock player the collision shape their own
+client renders, computed from Bedrock's offset.
 
-Download here: [Hurricane Download](https://download.geysermc.org/v2/projects/hurricane/versions/latest/builds/latest/downloads/spigot)
+## Supported platforms
 
-## Fixes:
-- Bamboo and dripstone collision (by setting them to no server-side collision)
+- Paper 1.20.5 through 26.2
+- Folia (tested on 26.1.2)
+- Fabric 26.2 (requires Fabric API)
+- NeoForge 26.2
 
-Supported Versions:
-- 1.14.x - 26.1
+## Dependencies
+
+- Geyser or Floodgate on the server, to detect Bedrock players
+- ViaVersion on Paper servers older than 26.2
+
+## Installing
+
+Drop the jar for your platform into `plugins/` (Paper) or `mods/`
+(Fabric, NeoForge). Both fixes are enabled by default.
+
+Both fixes change how the server validates Bedrock movement near bamboo and
+pointed dripstone, so test a new build before running it in production.

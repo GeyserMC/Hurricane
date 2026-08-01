@@ -5,6 +5,13 @@ on:
   push:
     paths-ignore:
       - '.gitignore'
+      - '.gitattributes'
+      - 'LICENSE'
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.gitattributes'
       - 'LICENSE'
       - 'README.md'
 
@@ -15,7 +22,7 @@ jobs:
       - name: Setup Gradle
         uses: GeyserMC/actions/setup-gradle-composite@master
         with:
-          setup-java_java-version: 21
+          setup-java_java-version: 25
 
       - name: Build Hurricane
         run: ./gradlew build
@@ -25,13 +32,15 @@ jobs:
         if: success()
         with:
           artifacts: |
-            spigot/build/libs/hurricane-spigot.jar
+            platform-paper/build/libs/hurricane-paper.jar
+            platform-fabric/build/libs/hurricane-fabric.jar
+            platform-neoforge/build/libs/hurricane-neoforge.jar
 
       - name: Get Version
         if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
         id: get-version
         run: |
-          version=$(cat gradle.properties | grep -o "^version=[0-9\\.]*" | cut -d"=" -f2)
+          version=$(cat gradle.properties | grep -o "^project_version=[0-9\\.]*" | cut -d"=" -f2)
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
       - name: Get Release Metadata
@@ -42,7 +51,9 @@ jobs:
           appID: ${{ secrets.RELEASE_APP_ID }}
           appPrivateKey: ${{ secrets.RELEASE_APP_PK }}
           files: |
-            spigot:spigot/build/libs/hurricane-spigot.jar
+            paper:platform-paper/build/libs/hurricane-paper.jar
+            fabric:platform-fabric/build/libs/hurricane-fabric.jar
+            neoforge:platform-neoforge/build/libs/hurricane-neoforge.jar
           releaseEnabled: false
           saveMetadata: true
           releaseProject: 'hurricane'
@@ -56,8 +67,16 @@ jobs:
           privateKey: ${{ secrets.DOWNLOADS_PRIVATE_KEY }}
           host: ${{ secrets.DOWNLOADS_SERVER_IP }}
           files: |
-            spigot/build/libs/hurricane-spigot.jar
+            platform-paper/build/libs/hurricane-paper.jar
+            platform-fabric/build/libs/hurricane-fabric.jar
+            platform-neoforge/build/libs/hurricane-neoforge.jar
           changelog: ${{ steps.metadata.outputs.body }}
+
+      - name: Publish to Modrinth
+        if: ${{ success() && github.repository == 'GeyserMC/Hurricane' && github.ref_name == 'master' }}
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+        run: ./gradlew modrinth
 
       - name: Notify Discord
         if: ${{ (success() || failure()) && github.repository == 'GeyserMC/Hurricane' }}
