@@ -1,7 +1,21 @@
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
+
 plugins {
     id("hurricane.java-conventions")
     id("com.gradleup.shadow")
     id("com.modrinth.minotaur")
+}
+
+// The Paper API ships Java 21 bytecode (1.20.5) and Java 25 bytecode (26.2), so this module needs a
+// JDK 25 toolchain to read it; indra keeps the release target at 17 so the jar still loads on Java 17.
+indra {
+    javaVersions {
+        minimumToolchain(25)
+        // The minimum Paper API (1.20.5) is published as Java 21 bytecode, so tests that link it
+        // can't run on a JDK 17; test on the build toolchain rather than indra's default target (17).
+        testWith().set(setOf(25))
+    }
 }
 
 val projectVersion = version.toString()
@@ -13,6 +27,7 @@ val currentPaperCompileClasspath = configurations.create("currentPaperCompileCla
     isCanBeConsumed = false
     isCanBeResolved = true
 }
+val javaToolchains = extensions.getByType<JavaToolchainService>()
 
 dependencies {
     api(project(":core"))
@@ -40,6 +55,9 @@ val compileCurrentPaperJava = tasks.register<JavaCompile>("compileCurrentPaperJa
     source(sourceSets.main.get().java)
     classpath = currentPaperCompileClasspath
     destinationDirectory.set(layout.buildDirectory.dir("classes/java/currentPaper"))
+    javaCompiler.set(javaToolchains.compilerFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    })
     options.release.set(indra.javaVersions().target())
 }
 

@@ -21,6 +21,9 @@ loom {
 indra {
     javaVersions {
         target(25)
+        // On CI, indra runs in strict mode and pins the toolchain to minimumToolchain (default 17),
+        // which can't compile release 25 or read the Java 25 Minecraft/Paper APIs.
+        minimumToolchain(25)
     }
 }
 
