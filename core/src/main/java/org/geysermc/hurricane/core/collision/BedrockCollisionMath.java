@@ -27,6 +27,8 @@ final class BedrockCollisionMath {
         return new Offset(offsetX, offsetZ);
     }
 
+    // Reproduces Bedrock's own block-position hash (not Java's Mth.getSeed); the constants match
+    // native Bedrock, verified against Bedrock Dedicated Server 1.26.32.2.
     private static long positionHash(int x, int z) {
         long value = (116_129_781L * z)
                 ^ ((0x2FC20F00000001L * Integer.toUnsignedLong(x)) >> 32);

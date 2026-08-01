@@ -1,9 +1,5 @@
-import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.jvm.toolchain.JavaLanguageVersion
-import org.gradle.jvm.toolchain.JavaToolchainService
-
 plugins {
-    `java-library`
+    id("hurricane.java-conventions")
     id("com.gradleup.shadow")
     id("com.modrinth.minotaur")
 }
@@ -17,14 +13,16 @@ val currentPaperCompileClasspath = configurations.create("currentPaperCompileCla
     isCanBeConsumed = false
     isCanBeResolved = true
 }
-val javaToolchains = extensions.getByType<JavaToolchainService>()
 
 dependencies {
     api(project(":core"))
     compileOnly(minimumPaperApi)
     compileOnly(minimumGeyserApi)
     compileOnly(libs.floodgate.api)
+    // The minimum Paper and Geyser APIs are resolved as bare jars, so the API types they
+    // expose in their own signatures have to be supplied here.
     compileOnly(libs.adventure.api)
+    compileOnly(libs.guava)
     currentPaperCompileClasspath(project(":core"))
     currentPaperCompileClasspath(libs.paper.api)
     currentPaperCompileClasspath(libs.geyser.api)
@@ -34,6 +32,7 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testImplementation(minimumPaperApi)
     testImplementation(libs.adventure.api)
+    testImplementation(libs.guava)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
 
@@ -41,10 +40,7 @@ val compileCurrentPaperJava = tasks.register<JavaCompile>("compileCurrentPaperJa
     source(sourceSets.main.get().java)
     classpath = currentPaperCompileClasspath
     destinationDirectory.set(layout.buildDirectory.dir("classes/java/currentPaper"))
-    javaCompiler.set(javaToolchains.compilerFor {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    })
-    options.release.set(17)
+    options.release.set(indra.javaVersions().target())
 }
 
 tasks.processResources {

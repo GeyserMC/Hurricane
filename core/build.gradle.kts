@@ -1,5 +1,7 @@
 plugins {
-    `java-library`
+    id("hurricane.java-conventions")
+    // Lets the Fabric and NeoForge mod source sets pull this module in without applying Loom to it.
+    id("dev.architectury.loom-companion")
 }
 
 dependencies {

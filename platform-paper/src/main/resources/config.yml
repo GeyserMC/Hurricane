@@ -1,5 +1,3 @@
 collision-fixes:
   bamboo: true
   pointed-dripstone: true
-
-diagnostics: false

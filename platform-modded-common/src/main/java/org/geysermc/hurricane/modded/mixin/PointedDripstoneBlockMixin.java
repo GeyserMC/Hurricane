@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PointedDripstoneBlock.class)
 public abstract class PointedDripstoneBlockMixin {
+    // PointedDripstoneBlock inherits getCollisionShape from BlockBehaviour rather than declaring
+    // it, so this mixin adds the override directly.
     protected VoxelShape getCollisionShape(
             BlockState state,
             BlockGetter level,

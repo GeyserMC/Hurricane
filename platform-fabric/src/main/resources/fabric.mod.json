@@ -3,9 +3,9 @@
   "id": "hurricane",
   "version": "${version}",
   "name": "Hurricane",
-  "description": "Exact per-player Bedrock collision translation for Geyser",
+  "description": "Per-player Bedrock block collision fixes for randomly offset blocks",
   "authors": [
-    "darkcupid412"
+    "GeyserMC"
   ],
   "license": "MIT",
   "environment": "server",

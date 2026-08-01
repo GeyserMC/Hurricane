@@ -7,6 +7,11 @@ import org.geysermc.hurricane.core.math.Aabb;
 import org.geysermc.hurricane.core.math.BlockPosition;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The fixtures below are Bedrock values, not Java ones. They come from a Script API probe of
+ * native pointed dripstone on Bedrock Dedicated Server 1.26.32.2, and describe the collision
+ * box the Bedrock client renders, which is what this class reproduces.
+ */
 class BedrockPointedDripstoneCollisionTest {
     private static final double TOLERANCE = 0.000002D;
     private static final double FACE_INSET = (1.0D / 1024.0D) / 16.0D;

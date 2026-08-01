@@ -1,4 +1,5 @@
 [versions]
+indra = "4.0.0"
 junit = "6.1.2"
 paper = "26.2.build.62-beta"
 geyser = "2.11.0-SNAPSHOT"
@@ -14,9 +15,11 @@ fabric-api = "0.155.2+26.2"
 neoforge = "26.2.0.25-beta"
 mixin = "0.8.7"
 adventure = "4.17.0"
+guava = "32.1.2-jre"
 minotaur = "2.+"
 
 [libraries]
+indra = { module = "net.kyori:indra-common", version.ref = "indra" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
@@ -29,10 +32,12 @@ fabric-api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
 adventure-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
 shadow-plugin = { module = "com.gradleup.shadow:com.gradleup.shadow.gradle.plugin", version.ref = "shadow" }
 minotaur = { module = "com.modrinth.minotaur:Minotaur", version.ref = "minotaur" }
 architectury-plugin-library = { module = "architectury-plugin:architectury-plugin.gradle.plugin", version.ref = "architectury-plugin" }
 architectury-loom-plugin = { module = "dev.architectury.loom-no-remap:dev.architectury.loom-no-remap.gradle.plugin", version.ref = "architectury-loom" }
+loom-companion-plugin = { module = "dev.architectury.loom-companion:dev.architectury.loom-companion.gradle.plugin", version.ref = "architectury-loom" }
 
 [plugins]
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

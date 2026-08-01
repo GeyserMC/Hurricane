@@ -1,4 +1,5 @@
 plugins {
+    id("hurricane.loom-conventions")
     id("com.gradleup.shadow")
     id("com.modrinth.minotaur")
 }
@@ -12,14 +13,8 @@ loom {
     mods {
         create("hurricane-neoforge") {
             sourceSet(sourceSets.main.get())
-            sourceSet(project(":platform-modded-common").extensions
-                .getByType<SourceSetContainer>()
-                .named("main")
-                .get())
-            sourceSet(project(":core").extensions
-                .getByType<SourceSetContainer>()
-                .named("main")
-                .get())
+            sourceSet("main", ":platform-modded-common")
+            sourceSet("main", ":core")
         }
     }
 }
@@ -35,6 +30,12 @@ configurations {
 }
 
 dependencies {
+    modules {
+        module("com.google.guava:listenablefuture") {
+            replacedBy("com.google.guava:guava", "listenablefuture is part of guava")
+        }
+    }
+
     neoForge(libs.neoforge)
     runtimeOnly(project(":core"))
 

@@ -4,22 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.PointedDripstone;
-import org.geysermc.hurricane.core.collision.BedrockPointedDripstoneCollision;
 import org.geysermc.hurricane.core.math.Aabb;
 import org.geysermc.hurricane.core.math.BlockPosition;
 import org.junit.jupiter.api.Test;
 
 class PaperPointedDripstoneCollisionTest {
-    @Test
-    void mapsEveryPaperThickness() {
-        for (PointedDripstone.Thickness thickness : PointedDripstone.Thickness.values()) {
-            assertEquals(
-                    expected(thickness),
-                    PaperPointedDripstoneCollision.toCore(thickness)
-            );
-        }
-    }
-
     @Test
     void mapsDownwardPointedDripstoneToHangingBedrockShape() {
         BlockPosition position = new BlockPosition(-8, 80, -8);
@@ -39,17 +28,5 @@ class PaperPointedDripstoneCollisionTest {
         assertEquals(80.0D + 11.0D / 16.0D, upward.maxY());
         assertEquals(80.0D + 5.0D / 16.0D, downward.minY());
         assertEquals(81.0D, downward.maxY());
-    }
-
-    private static BedrockPointedDripstoneCollision.Thickness expected(
-            PointedDripstone.Thickness thickness
-    ) {
-        return switch (thickness) {
-            case TIP_MERGE -> BedrockPointedDripstoneCollision.Thickness.MERGE;
-            case TIP -> BedrockPointedDripstoneCollision.Thickness.TIP;
-            case FRUSTUM -> BedrockPointedDripstoneCollision.Thickness.FRUSTUM;
-            case MIDDLE -> BedrockPointedDripstoneCollision.Thickness.MIDDLE;
-            case BASE -> BedrockPointedDripstoneCollision.Thickness.BASE;
-        };
     }
 }

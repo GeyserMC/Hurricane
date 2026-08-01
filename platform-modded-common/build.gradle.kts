@@ -1,3 +1,7 @@
+plugins {
+    id("hurricane.loom-conventions")
+}
+
 architectury {
     common("fabric", "neoforge")
 }

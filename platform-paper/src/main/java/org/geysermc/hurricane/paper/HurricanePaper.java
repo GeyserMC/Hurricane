@@ -50,13 +50,7 @@ public final class HurricanePaper extends JavaPlugin {
         BedrockPlayerResolver resolver = detectedResolver.get();
 
         plugins.registerEvents(
-                new PaperCollisionListener(
-                        resolver,
-                        getLogger(),
-                        bambooEnabled,
-                        pointedDripstoneEnabled,
-                        getConfig().getBoolean("diagnostics", false)
-                ),
+                new PaperCollisionListener(resolver, bambooEnabled, pointedDripstoneEnabled),
                 this
         );
         getLogger().info("Per-player Bedrock collision fixes enabled.");

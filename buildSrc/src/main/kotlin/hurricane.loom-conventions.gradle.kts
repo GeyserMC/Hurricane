@@ -1,5 +1,5 @@
 plugins {
-    `java-library`
+    id("hurricane.java-conventions")
     id("architectury-plugin")
     id("dev.architectury.loom-no-remap")
 }
@@ -16,6 +16,18 @@ architectury {
 
 loom {
     silentMojangMappingsLicense()
+}
+
+indra {
+    javaVersions {
+        target(25)
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 dependencies {

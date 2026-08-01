@@ -8,15 +8,20 @@ import org.geysermc.hurricane.core.math.Aabb;
 import org.geysermc.hurricane.core.math.BlockPosition;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The fixtures below are Bedrock values, not Java ones. They were measured against native
+ * {@code minecraft:random_offset} bamboo on Bedrock Dedicated Server 1.26.32.2, and describe
+ * the collision box the Bedrock client renders, which is what this class reproduces.
+ */
 class BedrockBambooCollisionTest {
     private static final float FLOAT_TOLERANCE = 0.0000001F;
     private static final double DOUBLE_TOLERANCE = 0.0000001D;
-    private static final List<OffsetFixture> VERIFIED_OFFSETS = List.of(
+    private static final List<OffsetFixture> MEASURED_OFFSETS = List.of(
             new OffsetFixture(410, 408, 0.18333334F, 0.08333333F),
             new OffsetFixture(-8, -8, 0.11666667F, -0.01666667F),
             new OffsetFixture(-1, 0, -0.08333334F, 0.25F)
     );
-    private static final BoxFixture VERIFIED_WORLD_BOX = new BoxFixture(
+    private static final BoxFixture MEASURED_WORLD_BOX = new BoxFixture(
             410,
             161,
             408,
@@ -29,8 +34,8 @@ class BedrockBambooCollisionTest {
     );
 
     @Test
-    void reproducesEveryVerifiedOffset() {
-        for (OffsetFixture fixture : VERIFIED_OFFSETS) {
+    void reproducesEveryMeasuredOffset() {
+        for (OffsetFixture fixture : MEASURED_OFFSETS) {
             BedrockBambooCollision.Offset actual =
                     BedrockBambooCollision.offsetAt(fixture.blockX(), fixture.blockZ());
 
@@ -40,8 +45,8 @@ class BedrockBambooCollisionTest {
     }
 
     @Test
-    void reproducesVerifiedAsymmetricWorldBox() {
-        BoxFixture fixture = VERIFIED_WORLD_BOX;
+    void reproducesMeasuredAsymmetricWorldBox() {
+        BoxFixture fixture = MEASURED_WORLD_BOX;
         Aabb actual = BedrockBambooCollision.boxAt(
                 new BlockPosition(fixture.blockX(), fixture.blockY(), fixture.blockZ())
         );

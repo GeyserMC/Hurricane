@@ -4,8 +4,8 @@ license="MIT"
 modId="hurricane"
 version="${version}"
 displayName="Hurricane"
-authors="darkcupid412"
-description="Exact per-player Bedrock collision translation for Geyser"
+authors="GeyserMC"
+description="Per-player Bedrock block collision fixes for randomly offset blocks"
 
 [[mixins]]
 config="hurricane.mixins.json"

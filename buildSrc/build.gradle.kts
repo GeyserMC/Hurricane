@@ -12,8 +12,10 @@ repositories {
 
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    implementation(libs.indra)
     implementation(libs.architectury.plugin.library)
     implementation(libs.architectury.loom.plugin)
+    implementation(libs.loom.companion.plugin)
     implementation(libs.shadow.plugin)
     implementation(libs.minotaur)
 }

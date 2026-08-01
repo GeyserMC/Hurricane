@@ -13,7 +13,7 @@ class MinecraftBoxesTest {
     private static final double TOLERANCE = 0.0000001D;
 
     @Test
-    void convertsVerifiedWorldBoxToExactBlockLocalVoxelShape() {
+    void convertsWorldBoxToExactBlockLocalVoxelShape() {
         BlockPosition position = new BlockPosition(410, 161, 408);
         Aabb worldBox = BedrockBambooCollision.boxAt(position);
 

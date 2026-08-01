@@ -26,7 +26,7 @@ public final class HurricaneModded {
                 return;
             }
             playerResolver = detectedResolver.get();
-            LOGGER.info("Per-player Bedrock collision fixes enabled for Minecraft 26.2.");
+            LOGGER.info("Per-player Bedrock collision fixes enabled.");
         } catch (LinkageError | RuntimeException error) {
             playerResolver = null;
             LOGGER.error(

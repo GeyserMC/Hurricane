@@ -19,6 +19,8 @@ import org.geysermc.hurricane.core.math.Aabb;
 import org.geysermc.hurricane.core.math.BlockPosition;
 import org.geysermc.hurricane.core.math.Movement;
 
+// PointedDripstone was renamed to Speleothem in 26.2 (hence the removal warning); Speleothem is
+// absent on the 1.20.5 minimum API, so this alias is the only name valid across every supported version.
 @SuppressWarnings("removal")
 public final class PaperCollisionWorld {
     private PaperCollisionWorld() {
