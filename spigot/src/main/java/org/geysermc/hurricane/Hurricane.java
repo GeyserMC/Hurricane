@@ -24,7 +24,7 @@ public final class Hurricane extends JavaPlugin {
 
         final boolean pointedDripstoneFixEnabled;
         if (config.collisionFixes().pointedDripstone()) {
-            if (NMSReflection.getMojmapNMSClass("world.level.block.PointedDripstoneBlock") != null) {
+            if (NMSReflection.getNMSClass("world.level.block", "PointedDripstoneBlock", "SpeleothemBlock") != null) {
                 pointedDripstoneFixEnabled = true;
             } else {
                 getLogger().warning("Pointed dripstone collision fix enabled in settings but we're not in 1.17+.");

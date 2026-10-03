@@ -22,6 +22,8 @@ public final class HurricaneConfiguration {
     @ConfigSerializable
     public static final class CollisionFixes {
         private boolean bamboo = true;
+
+        @Comment("Also disables sulfur spike collision on 26.2+, as pointed dripstone and sulfur spikes share their collision shapes there.")
         private boolean pointedDripstone = true;
 
         public boolean bamboo() {
